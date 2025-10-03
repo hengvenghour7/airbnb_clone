@@ -6,6 +6,6 @@ type NewButtonProps = {
 export default function NewButton ({className}: NewButtonProps) {
     return (
 
-        <button className= {className} onClick={() => console.log("this is a buffolo")}>Click to console log</button>
+        <button className= {className} onClick={() => console.log("this ssss is a buffolo")}>cccc Click to aaaa console log</button>
     );
 }
