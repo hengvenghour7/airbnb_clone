@@ -2,9 +2,24 @@
 import LocationCard from "./LocationCard"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { useState, useEffect } from "react";
 
 export default function Feature ({catalogue}: {catalogue:string}) {
     // const allFeature = ['bunning', 'shopping', 'trading', 'bali', 'banana'];
+    const [PreviewAmount, setPreViewAmount] = useState(2);    
+    // This code runs only once, after the component mounts
+    useEffect(() => {
+        const handleSize = () => {
+            const innerWidth = window.innerWidth;
+            if (window.innerWidth > 1280) setPreViewAmount(5)
+            else if (window.innerWidth > 768) setPreViewAmount(3)
+            else setPreViewAmount(2)
+        }
+        // handleSize();
+        window.addEventListener('resize', handleSize);
+        handleSize();
+    }, []); // empty dependency array = run once on mount
+
     const allFeature = [
         {
             name: 'Opera House',
@@ -56,11 +71,11 @@ export default function Feature ({catalogue}: {catalogue:string}) {
         },
     ];
     return (
-        <div className="my-6 mx-24">
+        <div className="my-6 mx-3 md:mx-24">
             <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
             <Swiper
                 spaceBetween={20}
-                slidesPerView={5}
+                slidesPerView={PreviewAmount}
                 onSlideChange={() => console.log('slide change')}
                 onSwiper={(swiper) => console.log(swiper)}
                 >
