@@ -1,0 +1,34 @@
+.centerButtonContainer div {
+    padding: 16px 24px;
+    transition: all;
+    position: relative;
+}
+.centerButtonContainer div:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 80%;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    translate: 0 -50%;
+    /* border-right: solid 2px rgb(168, 168, 168); */
+}
+.centerButtonContainer div:hover {
+    background-color: rgb(170, 170, 170);
+}
+.centerButtonContainer div:first-child {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+}
+.centerButtonContainer div:last-child {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+}
+.centerButtonContainer .bb {
+    color: red;
+}
+.calendarPopUp div {
+    border-radius: 20px;
+}
