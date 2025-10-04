@@ -7,6 +7,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useState, useEffect, useRef } from "react";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Styles from './componentStyle/navbarStyle.module.css';
+import Link from 'next/link';
 import clsx from 'clsx';
 
 
@@ -72,11 +73,11 @@ export default function Navbar ({className}: navBarProps) {
         }
     }, [dateVal, Volume]);
     return (
-        <div className={className}>
-            <div className='flex justify-between px-12 py-12 bg-gray-100 items-center'>
-                <div className='text-2xl font-bold text-red-600'>
+        <div className={clsx('shadow-md bg-white', className)}>
+            <div className='flex justify-between px-12 py-12 items-center'>
+                <Link href={'./'} className='text-2xl font-bold text-red-600'>
                     clonebnb
-                </div>
+                </Link>
                 <div className={clsx('flex justify-between border-1 rounded-full bg-white shadow-md', Styles.centerButtonContainer)}>
                     {navbarCenterOptions.map((option, index) => (
                         option.name.toLowerCase() === 'any weeks' ? 

@@ -79,8 +79,6 @@ export default function Feature ({catalogue}: {catalogue:string}) {
             <Swiper
                 spaceBetween={20}
                 slidesPerView={PreviewAmount}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
                 >
                     {
                     allFeature.map((feature, index) => (
