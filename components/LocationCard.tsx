@@ -1,6 +1,7 @@
 import { Card, Box, CardActions, CardContent, Button, Typography, CardMedia, CardActionArea } from "@mui/material";
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Link from 'next/link';
 
 
 const bull = (
@@ -21,6 +22,7 @@ type LocationCardType = {
 export default function LocationCard ({name, imageSrc, price, content, isFavorite} : LocationCardType) {
     return (
         <div>
+            <Link href='./place'>
             <Card className="relative">
                 <CardActionArea>
                     <CardMedia
@@ -47,6 +49,7 @@ export default function LocationCard ({name, imageSrc, price, content, isFavorit
                     </IconButton>
                 </div>
             </Card>
+            </Link>
         </div>
     )
 }
