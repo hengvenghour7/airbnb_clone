@@ -25,7 +25,8 @@ export default function Feature ({catalogue}: {catalogue:string}) {
             name: 'Opera House',
             imageSrc: './images/tourImg1.jpg',
             price: 200,
-            content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica'
+            content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
+            isFavorite: true,
         },
         {
             name: 'Darling Habour',
@@ -49,13 +50,15 @@ export default function Feature ({catalogue}: {catalogue:string}) {
             name: 'Darling Habour',
             imageSrc: './images/tourImg2.jpg',
             price: 330,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
+            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
+            isFavorite: true
         },
         {
             name: 'Darling Habour',
             imageSrc: './images/tourImg2.jpg',
             price: 330,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
+            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
+            isFavorite: true
         },
         {
             name: 'Darling Habour',
@@ -82,7 +85,14 @@ export default function Feature ({catalogue}: {catalogue:string}) {
                     {
                     allFeature.map((feature, index) => (
                         <SwiperSlide>
-                            <LocationCard name={feature.name} imageSrc={feature.imageSrc} price={feature.price} content={feature.content}  key={`locationcard_${index}`}/>
+                            <LocationCard 
+                            name={feature.name} 
+                            imageSrc={feature.imageSrc} 
+                            price={feature.price}
+                            content={feature.content}  
+                            isFavorite= {feature.isFavorite !== undefined ? feature.isFavorite : false}
+                            key={`locationcard_${index}`}
+                            />
                         </SwiperSlide>
                     ))
                     }
