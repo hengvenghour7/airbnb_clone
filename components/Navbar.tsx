@@ -72,7 +72,7 @@ export default function Navbar ({className}: navBarProps) {
         }
     }, [dateVal, Volume]);
     return (
-        <div>
+        <div className={className}>
             <div className='flex justify-between px-12 py-12 bg-gray-100 items-center'>
                 <div className='text-2xl font-bold text-red-600'>
                     clonebnb

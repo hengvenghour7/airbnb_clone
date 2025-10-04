@@ -3,11 +3,17 @@ import NewButton from "@/components/NewButton";
 import Navbar from '@/components/Navbar'
 import Feature from "@/components/Feature";
 
+
+const allcatalogue:string[] = ['Popular Home in Sydney', 'Available next month in Adelaide', 'Available in Surf Coast Shire this weekend']
 export default function Home() {
   return (
     <div>
-      <Navbar />
-      <Feature/>
+      <Navbar className="sticky top-0 z-30" />
+      {
+        allcatalogue.map((catalogue, index) => (
+          <Feature key={`catalogue_${index}`} catalogue={catalogue} />
+        ))
+      }
     </div>
   );
 }

@@ -12,33 +12,31 @@ const bull = (
 type LocationCardType = {
     name: string,
     imageSrc: string,
+    price: number,
     content: string,
 }
 
-export default function LocationCard ({name, imageSrc, content} : LocationCardType) {
+export default function LocationCard ({name, imageSrc, price, content} : LocationCardType) {
     return (
-        <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea>
-            <CardMedia
-            component="img"
-            height="140"
-            image={imageSrc}
-            alt="green iguana"
-            />
-            <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-                {name}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {content}
-            </Typography>
-            </CardContent>
-        </CardActionArea>
-        <CardActions>
-            <Button size="small" color="primary">
-            Share
-            </Button>
-        </CardActions>
-        </Card>
+        <div>
+            <Card>
+            <CardActionArea>
+                <CardMedia
+                component="img"
+                height="140"
+                image={imageSrc}
+                alt="green iguana"
+                />
+                <CardContent>
+                <Typography gutterBottom component="div">
+                    {name}
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {`$ ${price} AUD for 2 Nights`}
+                </Typography>
+                </CardContent>
+            </CardActionArea>
+            </Card>
+        </div>
     )
 }
