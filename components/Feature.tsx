@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useState, useEffect } from "react";
 
-export default function Feature ({catalogue}: {catalogue:string}) {
+export default function Feature ({catalogue, revenueCust}: {catalogue:string, revenueCust:string}) {
     // const allFeature = ['bunning', 'shopping', 'trading', 'bali', 'banana'];
     const [PreviewAmount, setPreViewAmount] = useState(2);    
     // This code runs only once, after the component mounts
@@ -75,6 +75,7 @@ export default function Feature ({catalogue}: {catalogue:string}) {
     ];
     return (
         <div className="my-6 mx-3 md:mx-24">
+            <div onClick={() => {console.log("ff" + revenueCust)}}>Click revenue</div>
             <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
             <Swiper
                 spaceBetween={20}
