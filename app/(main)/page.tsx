@@ -1,8 +1,8 @@
 import Image from "next/image";
-import NewButton from "@/components/NewButton";
-import Navbar from '@/components/Navbar'
-import Feature from "@/components/Feature";
-import { fetchServices } from "./lib/databaseHelper";
+import NewButton from "@/app/(main)/components/NewButton";
+import Navbar from '@/app/(main)/components/Navbar'
+import Feature from "@/app/(main)/components/Feature";
+import { fetchServices } from "../lib/databaseHelper";
 
 const allcatalogue:string[] = ['Popular Home in Sydney', 'Available next month in Adelaide', 'Available in Surf Coast Shire this weekend']
 export default async function Home() {
