@@ -76,7 +76,6 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
     ];
     return (
         <div className="my-6 mx-3 md:mx-24">
-            <div onClick={() => {console.log("ff" + revenueCust[0].accomodation)}}>Click revenue</div>
             <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
             <Swiper
                 spaceBetween={20}

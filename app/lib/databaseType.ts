@@ -12,3 +12,14 @@ export type serviceDataType = {
     servicetype: string,
     subdescription: string,
 }
+export type userSignUpType = {
+    username: string,
+    password: string,
+    serviceType: string,
+    email: string,
+    telephone: string
+}
+export type userLoginType = {
+    username: string,
+    password: string
+}

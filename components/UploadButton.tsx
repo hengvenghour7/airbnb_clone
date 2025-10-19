@@ -16,7 +16,9 @@ export default function UploadButton() {
         }}>
         {({ open }) => {
             return (
-            <button onClick={() => open()}>
+            <button
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow"
+            onClick={() => open()}>
                 Upload an Image
             </button>
             );
