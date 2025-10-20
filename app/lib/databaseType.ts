@@ -42,3 +42,9 @@ export type uploadImageDataType = {
     placename: string,
     imagelinks: string[],
 }
+export type getAllServicesType = {
+    servicetype: string,
+    hostname: string,
+    placename: string,
+    placelocation: string,
+}

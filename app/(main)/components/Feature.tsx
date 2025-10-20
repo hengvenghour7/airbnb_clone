@@ -4,6 +4,27 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useState, useEffect } from "react";
 import { serviceDataType } from "@/app/lib/databaseType";
+import { Content } from "next/font/google";
+
+type FeatureType = {
+    name: string,
+    imageSrc: string,
+    price: number,
+    content: string,
+    isFavorite: boolean,
+}
+let responseFeature:FeatureType[] = []; 
+await fetch('/api/getallservices')
+    .then(res => res.json())
+    .then(res => responseFeature = res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[]}) => {
+        return {
+            name: item.placename,
+            imageSrc: item.imagelinks.length > 0 ? item.imagelinks[0] : './images/tourImg1.jpg',
+            price: item.price,
+            Content: item.description,
+            isFavourite: false,
+        }
+    }));
 
 export default function Feature ({catalogue, revenueCust}: {catalogue:string, revenueCust:serviceDataType[]}) {
     // const allFeature = ['bunning', 'shopping', 'trading', 'bali', 'banana'];
@@ -74,6 +95,10 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
             content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
         },
     ];
+    const [allDisplayFeature, setAllDisplayFeature] = useState(
+        [...responseFeature, ...allFeature],
+    )
+    
     return (
         <div className="my-6 mx-3 md:mx-24">
             <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
@@ -82,7 +107,7 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                 slidesPerView={PreviewAmount}
                 >
                     {
-                    allFeature.map((feature, index) => (
+                    allDisplayFeature.map((feature, index) => (
                         <SwiperSlide>
                             <LocationCard 
                             name={feature.name} 

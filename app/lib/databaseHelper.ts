@@ -1,5 +1,5 @@
 import postgres from 'postgres';
-import {serviceDataType, userSignUpType, userLoginType, newServiceType, uploadImageDataType} from './databaseType';
+import {serviceDataType, userSignUpType, userLoginType, newServiceType, uploadImageDataType, getAllServicesType} from './databaseType';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export type ServiceType = 'home' | 'experience' | 'services';
@@ -44,4 +44,13 @@ export const uploadImage = async (data: uploadImageDataType) => {
         VALUES (${data.username}, ${data.email}, ${data.servicetype}, ${data.placename}, ${data.imagelinks})
         RETURNING *;
         `
+}
+export const getAllServices = async () => {
+        const result = await sql`select * from homeservices`;
+        const imageResult = await sql`select * from hostimage`;
+        const mergeResult = result.map(item => {
+                const obj2 = imageResult.find(obj => obj.placename === item.placename)
+                return {...item, imagelinks: obj2 !== undefined ? obj2?.imagelinks : []}
+        })
+        return mergeResult;
 }

@@ -1,13 +1,10 @@
 import Image from "next/image";
-import NewButton from "@/app/(main)/components/NewButton";
-import Navbar from '@/app/(main)/components/Navbar'
 import Feature from "@/app/(main)/components/Feature";
 import { fetchServices } from "../lib/databaseHelper";
 
 const allcatalogue:string[] = ['Popular Home in Sydney', 'Available next month in Adelaide', 'Available in Surf Coast Shire this weekend']
 export default async function Home() {
   const homeServices = await fetchServices('home');
-  console.log(homeServices[0].placename);
   // if (!Revenue || Revenue.length === 0) {
   //   return <p className="mt-4 text-gray-400">No data available.</p>;
   // }
