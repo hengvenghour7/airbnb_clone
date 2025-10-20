@@ -13,31 +13,36 @@ type FeatureType = {
     content: string,
     isFavorite: boolean,
 }
-let responseFeature:FeatureType[] = []; 
-await fetch('/api/getallservices')
-    .then(res => res.json())
-    .then(res => responseFeature = res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[]}) => {
-        return {
-            name: item.placename,
-            imageSrc: item.imagelinks.length > 0 ? item.imagelinks[0] : './images/tourImg1.jpg',
-            price: item.price,
-            Content: item.description,
-            isFavourite: false,
-        }
-    }));
+
 
 export default function Feature ({catalogue, revenueCust}: {catalogue:string, revenueCust:serviceDataType[]}) {
     // const allFeature = ['bunning', 'shopping', 'trading', 'bali', 'banana'];
     const [PreviewAmount, setPreViewAmount] = useState(2);    
     // This code runs only once, after the component mounts
+    const [responseFeature, setResponseFeature] = useState<FeatureType[]>([])
     useEffect(() => {
+        const fetchData = async () => {
+            await fetch('/api/getallservices')
+            .then(res => res.json())
+            .then(res => setResponseFeature(
+                res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[]}) => {
+                return {
+                    name: item.placename,
+                    imageSrc: item.imagelinks.length > 0 ? item.imagelinks[0] : './images/tourImg1.jpg',
+                    price: item.price,
+                    Content: item.description,
+                    isFavourite: false,
+                }
+            })
+            ));            
+        };
+        fetchData();
         const handleSize = () => {
             const innerWidth = window.innerWidth;
             if (window.innerWidth > 1280) setPreViewAmount(5)
             else if (window.innerWidth > 768) setPreViewAmount(3)
             else setPreViewAmount(2)
         }
-        // handleSize();
         window.addEventListener('resize', handleSize);
         handleSize();
     }, []); // empty dependency array = run once on mount
@@ -96,8 +101,11 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
         },
     ];
     const [allDisplayFeature, setAllDisplayFeature] = useState(
-        [...responseFeature, ...allFeature],
+        [...responseFeature, ...allFeature]
     )
+    useEffect(() => {
+        setAllDisplayFeature([...responseFeature, ...allFeature])
+    }, [responseFeature])
     
     return (
         <div className="my-6 mx-3 md:mx-24">
