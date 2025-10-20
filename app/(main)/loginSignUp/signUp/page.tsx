@@ -88,9 +88,9 @@ export default function SignUp () {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userForm),
         });
-
         const result = await res.json();
-        console.log(result);
+        console.log(result.success);
+        if (result.success) {window.location.href = '/dashboard'};
         }
     }
     return (

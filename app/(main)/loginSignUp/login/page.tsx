@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { Button, FormControl, FormHelperText, MenuItem } from '@mui/material';
 import { userLoginType } from '@/app/lib/databaseType';
+// import router from 'next/router';
 
 
 export default function Login () {
@@ -39,11 +40,18 @@ export default function Login () {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userForm),
         });
+        const json = await res.json();
+        // console.log('login res', json.data.success);
+        if (json.data.success) {window.location.href = '/dashboard'} 
+        else {
+            setIsSubmit(true);
+        }
+        
     }
     return (
         <div className='pt-12 flex justify-center'>
             <div className='w-128'>
-                <h3 className='text-center font-bold'>Sign Up</h3>
+                <h3 className='text-center font-bold'>Login</h3>
                 <FormControl sx={{width: '100%'}}>
                 {
                     allLoginInput.map((item, index) => (
