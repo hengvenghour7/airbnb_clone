@@ -1,10 +1,11 @@
 'use client'
 import LocationCard from "./LocationCard"
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
 import { useState, useEffect } from "react";
 import { serviceDataType } from "@/app/lib/databaseType";
 import { Content } from "next/font/google";
+import { Button } from "@mui/material";
 
 type FeatureType = {
     name: string,
@@ -106,13 +107,20 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
     useEffect(() => {
         setAllDisplayFeature([...responseFeature, ...allFeature])
     }, [responseFeature])
-    
+    const [swiper, setSwiper] = useState<any>(null);
     return (
         <div className="my-6 mx-3 md:mx-24">
-            <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
+            <div className="flex justify-between mb-4">
+                <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
+                <div className="flex">
+                    <Button color="info" onClick={() => swiper.slidePrev()}>slide Prev</Button>
+                    <Button color="info" onClick={() => swiper.slideNext()}>slide next</Button>
+                </div>
+            </div>
             <Swiper
                 spaceBetween={20}
                 slidesPerView={PreviewAmount}
+                onSwiper={(instance) => setSwiper(instance)}
                 >
                     {
                     allDisplayFeature.map((feature, index) => (
