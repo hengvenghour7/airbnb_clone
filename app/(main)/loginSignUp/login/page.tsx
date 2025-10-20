@@ -14,16 +14,17 @@ export default function Login () {
             value: '',
             required: true,
             isError: false,
-            helperText: 'required'
+            helperText: 'Incorrect Username'
         },
         {
             fieldName: 'password',
             value: '',
             required: true,
             isError: false,
-            helperText: 'required'
+            helperText: 'Incorrect Password'
         }
     ])
+    const [isFormError, setIsFormError] = useState(false);
     const [isSubmit, setIsSubmit] = useState(false);
     const handleFormChange = (index:number, newValue: string) => {
         setAllLoginInput((prev) => prev.map((field, i) => {
@@ -42,9 +43,13 @@ export default function Login () {
         });
         const json = await res.json();
         // console.log('login res', json.data.success);
-        if (json.data.success) {window.location.href = '/dashboard'} 
+        if (json.data.success) {
+            localStorage.setItem('username', json.data.user.username);
+            localStorage.setItem('servicetype', json.data.user.servicetype);
+            window.location.href = '/dashboard/account'
+        } 
         else {
-            setIsSubmit(true);
+            setIsFormError(true);
         }
         
     }
@@ -62,9 +67,9 @@ export default function Login () {
                         key= {`signUp_${index}`}
                         onChange={(e) => handleFormChange(index, e.target.value)}
                         label= {item.fieldName}
-                        error= {(item.value.length <= 0 || (item.fieldName === 'confirm password' && item.isError)) && item.required && isSubmit}
+                        error= {isFormError}
                         value= {item.value}
-                        helperText= {(item.value.length <= 0 || (item.fieldName === 'confirm password' && item.isError)) && item.required && isSubmit ? item.helperText : ''}
+                        helperText= {isFormError ? item.helperText : ''}
                         />
                     ))
                 }
