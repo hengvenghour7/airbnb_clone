@@ -35,3 +35,10 @@ export type newServiceType = {
     price: number,
     isFavorite: boolean
 }
+export type uploadImageDataType = {
+    username: string,
+    email: string,
+    servicetype: string,
+    placename: string,
+    imagelinks: string[],
+}
