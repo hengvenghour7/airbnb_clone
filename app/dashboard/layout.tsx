@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
 
-import UploadButton from "@/app/(main)/components/UploadButton"
+import UploadButton from "@/app/dashboard/components/UploadButton"
 import Sidebar from "./components/Sidebar";
 
 export const metadata: Metadata = {

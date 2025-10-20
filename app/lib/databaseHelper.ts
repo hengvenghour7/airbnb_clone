@@ -1,5 +1,5 @@
 import postgres from 'postgres';
-import {serviceDataType, userSignUpType, userLoginType} from './databaseType';
+import {serviceDataType, userSignUpType, userLoginType, newServiceType, uploadImageDataType} from './databaseType';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export type ServiceType = 'home' | 'experience' | 'services';
@@ -30,4 +30,18 @@ export const userLogin = async (user:userLoginType) => {
         }
 
         return { success: true, user: result[0] };
+}
+export const createNewService = async (service:newServiceType) => {
+        const result = await sql`
+        INSERT INTO homeservices (hostname, servicetype, accomodation, placename, placelocation, subdescription, description, services, price)
+        VALUES (${service.hostname}, ${service.serviceType}, ${service.accomodation}, ${service.placename}, ${service.placeLocation}, ${service.subDescription}, ${service.description}, ${service.services}, ${service.price})
+        RETURNING *;
+        `;
+}
+export const uploadImage = async (data: uploadImageDataType) => {
+        const result = await sql`
+        INSERT INTO hostimage (username, email, servicetype, placename, imagelinks)
+        VALUES (${data.username}, ${data.email}, ${data.servicetype}, ${data.placename}, ${data.imagelinks})
+        RETURNING *;
+        `
 }

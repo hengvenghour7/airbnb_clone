@@ -23,3 +23,15 @@ export type userLoginType = {
     username: string,
     password: string
 }
+export type newServiceType = {
+    hostname: string,
+    serviceType: string,
+    accomodation: string,
+    placename: string,
+    placeLocation: string,
+    subDescription: string,
+    description: string
+    services: string[],
+    price: number,
+    isFavorite: boolean
+}
