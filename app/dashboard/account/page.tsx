@@ -1,5 +1,7 @@
 'use client'
 
+import { Button } from "@mui/material";
+import Link from "next/link";
 import { useEffect, useState } from "react"
 
 export default function Account () {
@@ -11,18 +13,67 @@ export default function Account () {
         {
             username: '',
             serviceType: ''
-        })
+        });
+    const [userData, setUserData] = useState(
+        {
+            accountName: {
+                fieldname: 'Account name',
+                value: 'Venghour'
+            },
+            phoneNumber: {
+                fieldname: 'Phone number',
+                value: '0965777'
+            },
+            serviceType: {
+                fieldname: 'Service type',
+                value: 'Accomodation'
+            },
+            email: {
+                fieldname: 'email',
+                value: 'vv@gmail.com'
+            },
+        }
+    )
     useEffect(() => {
         setUser({
             username: localStorage.getItem('username'),
             serviceType: localStorage.getItem('servicetype')
-        }) 
+        })
+        setUserData(prev => (
+            {
+                ...prev, accountName: {
+                    fieldname: 'Account Name',
+                    value: localStorage.getItem('username') || ''
+                },
+                phoneNumber: {
+                    fieldname: 'Phone number',
+                    value: localStorage.getItem('telephone') || ''
+                },
+                serviceType: {
+                    fieldname: 'Service type',
+                    value: localStorage.getItem('servicetype') || ''
+                },
+                email: {
+                    fieldname: 'email',
+                    value: localStorage.getItem('email') || ''
+                }
+            }
+        ))
     }, [])
     return (
-        <div>
-            <h3>Account</h3>
-            <p>Username {user.username}</p>
-            <p>Service {user.serviceType}</p>
+        <div className="m-12 w-full">
+            <h3 className="mb-4">Account</h3>
+            {
+                Object.entries(userData).map(([key, user]) => (
+                    <div key={`account_${key}`} className="grid grid-cols-2 mb-3">
+                        <p className="font-semibold">{user.fieldname}</p>
+                        <p>{user.value}</p>
+                    </div>
+                ))
+            }
+            <Link href={'/dashboard/services'}>
+                <Button variant="contained">Check all services</Button>
+            </Link>
         </div>
     )
 }
