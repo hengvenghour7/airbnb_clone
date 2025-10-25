@@ -21,11 +21,6 @@ export default function Create () {
                 required: true,
             },
             {
-                fieldName: 'host name',
-                value: '',
-                required: true,
-            },
-            {
                 fieldName: 'accomodation type',
                 value: '',
                 required: true,
@@ -95,15 +90,15 @@ export default function Create () {
     const onCreateHost = async () => {
         const createForm: newServiceType = {
             serviceType: allInputField[0].value,
-            hostname: allInputField[1].value,
-            accomodation: allInputField[2].value,
-            placename: allInputField[3].value,
-            placeLocation: allInputField[4].value,
-            price: Number(allInputField[5].value),
+            hostname: localStorage.getItem('username') || '',
+            accomodation: allInputField[1].value,
+            placename: allInputField[2].value,
+            placeLocation: allInputField[3].value,
+            price: Number(allInputField[4].value),
             isFavorite: false,
             services: allServicesInput.map(item => item.value),
-            subDescription: allInputField[7].value,
-            description: allInputField[8].value
+            subDescription: allInputField[6].value,
+            description: allInputField[7].value
         }
         const uploadImageform: uploadImageDataType = {
             username: createForm.hostname,

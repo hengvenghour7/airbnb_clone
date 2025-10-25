@@ -62,7 +62,7 @@ export default function Account () {
     }, [])
     return (
         <div className="m-12 w-full">
-            <h3 className="mb-4">Account</h3>
+            <h3 className="mb-4 text-blue-600 font-semibold">Account</h3>
             {
                 Object.entries(userData).map(([key, user]) => (
                     <div key={`account_${key}`} className="grid grid-cols-2 mb-3">
