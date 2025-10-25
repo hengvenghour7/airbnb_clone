@@ -26,8 +26,8 @@ export default function LocationCard ({name, imageSrc, price, content, isFavorit
             <Card className="relative">
                 <CardActionArea>
                     <CardMedia
+                    className="aspect-square"
                     component="img"
-                    height="140"
                     image={imageSrc}
                     alt="green iguana"
                     />

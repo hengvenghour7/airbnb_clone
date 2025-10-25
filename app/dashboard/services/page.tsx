@@ -32,8 +32,8 @@ export default function Services () {
     }, []);
     return (
         <div className="m-4">
-            <h3 className="font-semibold mb-4">Your services</h3>
-            <div className="grid grid-cols-3 gap-4">
+            <h3 className="text-blue-600 mb-4">Your services</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {
                     responseFeature.map((feature, index) => (
                         <LocationCard 

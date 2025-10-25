@@ -53,6 +53,6 @@ export const getAvailableServices = async (serviceType: string = 'all', placeNam
         const mergeResult = result.map(item => {
                 const obj2 = imageResult.find(obj => obj.placename === item.placename)
                 return {...item, imagelinks: obj2 !== undefined ? obj2?.imagelinks : []}
-        })
+        }).reverse();
         return mergeResult;
 }
