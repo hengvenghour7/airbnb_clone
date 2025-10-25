@@ -22,7 +22,7 @@ type LocationCardType = {
 export default function LocationCard ({name, imageSrc, price, content, isFavorite} : LocationCardType) {
     return (
         <div>
-            <Link href='./place'>
+            <Link href='/place'>
             <Card className="relative">
                 <CardActionArea>
                     <CardMedia

@@ -45,9 +45,11 @@ export const uploadImage = async (data: uploadImageDataType) => {
         RETURNING *;
         `
 }
-export const getAllServices = async () => {
-        const result = await sql`select * from homeservices`;
-        const imageResult = await sql`select * from hostimage`;
+export const getAvailableServices = async (serviceType: string = 'all', placeName: string = 'all') => {
+        // let result: postgres.RowList<(postgres.Row & Iterable<postgres.Row>)[]>;
+        const result = serviceType === 'all' ?  await sql`SELECT * from homeservices` :
+        await sql`SELECT * from homeservices WHERE hostname = ${placeName}`
+        const imageResult = await sql`SELECT * from hostimage`;
         const mergeResult = result.map(item => {
                 const obj2 = imageResult.find(obj => obj.placename === item.placename)
                 return {...item, imagelinks: obj2 !== undefined ? obj2?.imagelinks : []}
