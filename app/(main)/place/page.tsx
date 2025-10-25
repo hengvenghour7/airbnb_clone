@@ -1,13 +1,14 @@
 import { Card, Typography, CardContent, Button, CardActions, Divider  } from "@mui/material";
+import ImageWithFallback from "../components/ImageWithFallback";
 
-export default function Place() {
+export default function Place({allImageSrc}: {allImageSrc?: string[]}) {
     return (
         <div className='my-6 mx-16'>
             <h3 className='pb-6 text-2xl'>Opera House</h3>
             <div className='grid grid-cols-4 grid-rows-2 gap-2 rounded-2xl overflow-hidden'>
                 {
                     [1,2,3,4,5].map((res, index) => (
-                        <img key={index} className='first:col-span-2 first:row-span-2' src="./images/tourImg1.jpg" alt="" />
+                        <ImageWithFallback key={index} className='first:col-span-2 first:row-span-2' src="/images/tourImg1.jpg" alt="" />
                     ))
                 }
             </div>
