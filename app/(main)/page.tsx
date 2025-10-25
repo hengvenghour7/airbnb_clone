@@ -13,7 +13,7 @@ export default async function Home() {
       {/* <div onClick={ revenueClick }>{ Revenue[0].customer }</div> */}
       {
         allcatalogue.map((catalogue, index) => (
-          <Feature key={`catalogue_${index}`} catalogue={catalogue} revenueCust={homeServices} />
+          <Feature key={`catalogue_${index}`} catalogue={catalogue} />
         ))
       }
     </div>

@@ -2,10 +2,11 @@
 import LocationCard from "./LocationCard"
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { serviceDataType } from "@/app/lib/databaseType";
 import { Content } from "next/font/google";
 import { Button } from "@mui/material";
+import LoadingCard from "./LoadingCard";
 
 type FeatureType = {
     name: string,
@@ -16,9 +17,10 @@ type FeatureType = {
 }
 
 
-export default function Feature ({catalogue, revenueCust}: {catalogue:string, revenueCust:serviceDataType[]}) {
+export default function Feature ({catalogue, revenueCust}: {catalogue:string, revenueCust?:serviceDataType[]}) {
     // const allFeature = ['bunning', 'shopping', 'trading', 'bali', 'banana'];
     const [PreviewAmount, setPreViewAmount] = useState(2);    
+    const [isLoading, setIsloading] = useState(true);
     // This code runs only once, after the component mounts
     const [responseFeature, setResponseFeature] = useState<FeatureType[]>([])
     useEffect(() => {
@@ -35,7 +37,8 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                     isFavourite: false,
                 }
             })
-            ));            
+            ))
+            .then(() => setIsloading(false));
         };
         fetchData();
         const handleSize = () => {
@@ -122,20 +125,25 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                 slidesPerView={PreviewAmount}
                 onSwiper={(instance) => setSwiper(instance)}
                 >
-                    {
-                    allDisplayFeature.map((feature, index) => (
-                        <SwiperSlide>
-                            <LocationCard 
-                            name={feature.name} 
-                            imageSrc={feature.imageSrc} 
-                            price={feature.price}
-                            content={feature.content}  
-                            isFavorite= {feature.isFavorite !== undefined ? feature.isFavorite : false}
-                            key={`locationcard_${index}`}
-                            />
-                        </SwiperSlide>
-                    ))
-                    }
+
+                        {
+                            isLoading ? [1,2,3,4].map(() => (
+                            <SwiperSlide>
+                                <LoadingCard/>
+                            </SwiperSlide>)) :
+                        allDisplayFeature.map((feature, index) => (
+                            <SwiperSlide>
+                                <LocationCard 
+                                name={feature.name} 
+                                imageSrc={feature.imageSrc} 
+                                price={feature.price}
+                                content={feature.content}  
+                                isFavorite= {feature.isFavorite !== undefined ? feature.isFavorite : false}
+                                key={`locationcard_${index}`}
+                                />
+                            </SwiperSlide>
+                        ))
+                        }
             </Swiper>
         </div>
         
