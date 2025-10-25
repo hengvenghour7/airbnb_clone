@@ -89,8 +89,15 @@ export default function SignUp () {
             body: JSON.stringify(userForm),
         });
         const result = await res.json();
-        console.log(result.success);
-        if (result.success) {window.location.href = '/dashboard'};
+        if (result.success) {
+            Object.entries(result.data[0]).forEach(([key, data]) => {
+                localStorage.setItem(key, String(data));
+            })
+            // localStorage.setItem('username', json.data.user.username);
+            // localStorage.setItem('servicetype', json.data.user.servicetype);
+            localStorage.setItem('isAuth', 'true');
+            window.location.href = '/dashboard/account'
+        };
         }
     }
     return (
@@ -104,6 +111,7 @@ export default function SignUp () {
                         sx={{
                             marginTop: '16px',
                         }}
+                        type= {item.fieldName.includes('password') ? 'password' : 'text'}
                         key= {`signUp_${index}`}
                         onChange={(e) => handleFormChange(index, e.target.value)}
                         label= {item.fieldName}

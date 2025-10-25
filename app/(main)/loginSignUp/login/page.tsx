@@ -44,8 +44,10 @@ export default function Login () {
         const json = await res.json();
         // console.log('login res', json.data.success);
         if (json.data.success) {
-            localStorage.setItem('username', json.data.user.username);
-            localStorage.setItem('servicetype', json.data.user.servicetype);
+            Object.entries(json.data.user).forEach(([key, data]) => {
+                localStorage.setItem(key, String(data));
+            })
+            localStorage.setItem('isAuth', 'true')
             window.location.href = '/dashboard/account'
         } 
         else {
@@ -65,6 +67,7 @@ export default function Login () {
                             marginTop: '16px',
                         }}
                         key= {`signUp_${index}`}
+                        type= {item.fieldName.includes('password') ? 'password' : 'text'}
                         onChange={(e) => handleFormChange(index, e.target.value)}
                         label= {item.fieldName}
                         error= {isFormError}
