@@ -2,15 +2,15 @@
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { format, compareAsc } from "date-fns";
-import { Button, Fade, Box, Popper, Popover, Typography, DialogTitle, DialogContent, Dialog, DialogContentText, DialogActions, Slide } from "@mui/material";
+import { Button, Fade, Box, Popper, Popover, Typography, DialogTitle, DialogContent, Dialog, DialogContentText, DialogActions, Slide, ListItemButton, ListItem, List, Divider, Drawer } from "@mui/material";
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useState, useEffect, useRef } from "react";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Styles from './componentStyle/navbarStyle.module.css';
-import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import Link from 'next/link';
 import clsx from 'clsx';
 import React from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
 import { TransitionProps } from '@mui/material/transitions';
 
 
@@ -27,6 +27,7 @@ type navBarOptionType = {
     child?: navBarChildType[];
 }
 type navBarOptionArray = navBarOptionType[];
+let isAuth = false;
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
         children: React.ReactElement<any, any>;
@@ -84,13 +85,45 @@ export default function Navbar ({className}: navBarProps) {
   const handleClickOpen = () => {
     setMemberPopOpen(true);
   };
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const toggleDrawer = (drawerState: boolean) => {
+    setIsDrawerOpen(drawerState);
+  }
+  const list = () => (
+    <Box
+      role="presentation"
+      onClick={() => toggleDrawer(false)}
+      onKeyDown={() => toggleDrawer(false)}
+    >
+      <List>
+        <ListItem disablePadding>
+            <ListItemButton>
+              <Link href={'/loginSignUp'}>
+                <Button>Login/SignUp</Button>
+              </Link>
+            </ListItemButton>
+          </ListItem>
+        <ListItem disablePadding>
+            <ListItemButton>
+              <Link href={isAuth ? '/dashboard/account' : '/loginSignUp/signUp'}>
+                <Button>Account Dashboard</Button>
+              </Link>
+            </ListItemButton>
+          </ListItem>
+      </List>
+    </Box>
+  );
   const canBeOpen = open && Boolean(anchorEl);
+  
   const id = canBeOpen ? 'transition-popper' : undefined;
     useEffect(() => {
         if (dateVal !== null) {
             console.log('new date val' + format(dateVal, 'MM/dd/yyyy')+ 'new vol' + Volume);
         }
     }, [dateVal, Volume]);
+    useEffect(() => {
+        isAuth = localStorage.getItem('isAuth') === 'true';
+    }, []);
     return (
         <div className={clsx('shadow-md bg-white', className)}>
             <div className='flex justify-between px-12 py-12 items-center'>
@@ -135,31 +168,46 @@ export default function Navbar ({className}: navBarProps) {
                         
                     ))}
                 </div>
-                 <React.Fragment>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Become a Member
-                    </Button>
-                    <Dialog
-                        open={memberPopOpen}
-                        slots={{
-                        transition: Transition,
-                        }}
-                        onClose={handleClose}
-                        aria-describedby="alert-dialog-slide-description"
-                    >
-                        <DialogTitle>{"What do you like to host?"}</DialogTitle>
-                        <DialogContent>
-                        {/* <DialogContentText id="alert-dialog-slide-description">
-                            What do you like to host?
-                        </DialogContentText> */}
-                        </DialogContent>
-                        <DialogActions>
-                        <Link href='/loginSignUp' onClick={handleClose}>Home</Link>
-                        <Link href='/loginSignUp' onClick={handleClose}>Experience</Link>
-                        <Link href='/loginSignUp' onClick={handleClose}>Service</Link>
-                        </DialogActions>
-                    </Dialog>
-                </React.Fragment>
+                <div>
+                    <React.Fragment>
+                        <Button variant="outlined" onClick={handleClickOpen}>
+                            Become a Member
+                        </Button>
+                        <Dialog
+                            open={memberPopOpen}
+                            slots={{
+                            transition: Transition,
+                            }}
+                            onClose={handleClose}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle>{"What do you like to host?"}</DialogTitle>
+                            <DialogContent>
+                            {/* <DialogContentText id="alert-dialog-slide-description">
+                                What do you like to host?
+                            </DialogContentText> */}
+                            </DialogContent>
+                            <DialogActions>
+                            <Link href='/loginSignUp' onClick={handleClose}>Home</Link>
+                            <Link href='/loginSignUp' onClick={handleClose}>Experience</Link>
+                            <Link href='/loginSignUp' onClick={handleClose}>Service</Link>
+                            </DialogActions>
+                        </Dialog>
+                    </React.Fragment>
+                    {
+                        <React.Fragment>
+                        <Button onClick={() => toggleDrawer(true)}>
+                            <MenuIcon/>
+                        </Button>
+                        <Drawer
+                            anchor={'right'}
+                            open={isDrawerOpen}
+                            onClose={() => toggleDrawer(false)}
+                        >
+                            {list()}
+                        </Drawer>
+                        </React.Fragment>}
+                </div>
             </div>
             
         </div>
