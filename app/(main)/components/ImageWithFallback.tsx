@@ -18,15 +18,15 @@ export default function ImageWithFallback({
   const [imgSrc, setImgSrc] = useState(src);
 
   return (
-    <Image
-      src={imgSrc}
-      alt={alt}
-      width={0}
-      height={0}
-      sizes="100vw"
-      onError={() => setImgSrc(fallbackSrc)}
-      className={className}
-      style={{ width: '100%', height: 'auto' }}
-    />
+    <div className={`relative ${className}`}>
+      <Image
+        src={imgSrc}
+        alt={alt}
+        fill
+        sizes="100vw"
+        onError={() => setImgSrc(fallbackSrc)}
+        className="object-cover"
+      />
+    </div>
   );
 }

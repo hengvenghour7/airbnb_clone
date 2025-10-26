@@ -1,5 +1,6 @@
 import postgres from 'postgres';
-import {serviceDataType, userSignUpType, userLoginType, newServiceType, uploadImageDataType, getAllServicesType} from './databaseType';
+import {serviceDataType, userSignUpType, userLoginType, newServiceType, uploadImageDataType, 
+        responseImageType} from './databaseType';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 export type ServiceType = 'home' | 'experience' | 'services';
@@ -50,6 +51,24 @@ export const getAvailableServices = async (serviceType: string = 'all', placeNam
         const result = serviceType === 'all' ?  await sql`SELECT * from homeservices` :
         await sql`SELECT * from homeservices WHERE hostname = ${placeName}`
         const imageResult = await sql`SELECT * from hostimage`;
+        const mergeResult = result.map(item => {
+                const obj2 = imageResult.find(obj => obj.placename === item.placename)
+                return {...item, imagelinks: obj2 !== undefined ? obj2?.imagelinks : []}
+        }).reverse();
+        return mergeResult;
+}
+export const getServiceDetail = async (placeName: string = 'all') => {
+        // let result: postgres.RowList<(postgres.Row & Iterable<postgres.Row>)[]>;
+        const result = await sql`SELECT * from homeservices WHERE placename = ${placeName} LIMIT 1`
+        let imageResult = await sql<responseImageType[]>`SELECT * from hostimage WHERE placename = ${placeName} LIMIT 1`;
+        if (imageResult[0].imagelinks.length < 5) {                
+                while (imageResult[0].imagelinks.length < 5) {
+                        imageResult[0].imagelinks.push('/noImage.png')
+                }
+        }
+        if (imageResult[0].imagelinks.length > 5) {
+                imageResult[0].imagelinks = imageResult[0].imagelinks.slice(0, 5);
+        }
         const mergeResult = result.map(item => {
                 const obj2 = imageResult.find(obj => obj.placename === item.placename)
                 return {...item, imagelinks: obj2 !== undefined ? obj2?.imagelinks : []}

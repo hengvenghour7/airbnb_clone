@@ -48,3 +48,25 @@ export type getAllServicesType = {
     placename: string,
     placelocation: string,
 }
+export type responseServiceType = {
+    "id": number,
+    "servicetype": string,
+    "hostname": string,
+    "accomodation": string,
+    "placename": string,
+    "placelocation": string,
+    "subdescription": string,
+    "description": string,
+    "services": string[],
+    "price": string,
+    "isfavorite": boolean | null,
+    "imagelinks": string[]
+}
+export type responseImageType = {
+    id: number,
+    username: string,
+    email: string,
+    servicetype: string,
+    placename: string,
+    imagelinks: string[]
+}

@@ -105,7 +105,7 @@ export default function Navbar ({className}: navBarProps) {
           </ListItem>
         <ListItem disablePadding>
             <ListItemButton>
-              <Link href={isAuth ? '/dashboard/account' : '/loginSignUp/signUp'}>
+              <Link href={isAuth ? '/dashboard/account' : '/loginSignUp/login'}>
                 <Button>Account Dashboard</Button>
               </Link>
             </ListItemButton>

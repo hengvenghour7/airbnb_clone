@@ -84,25 +84,6 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
             content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
             isFavorite: true
         },
-        {
-            name: 'Darling Habour',
-            imageSrc: './images/tourImg2.jpg',
-            price: 330,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
-            isFavorite: true
-        },
-        {
-            name: 'Darling Habour',
-            imageSrc: './images/tourImg2.jpg',
-            price: 330,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
-        },
-        {
-            name: 'Darling Habour',
-            imageSrc: './images/tourImg2.jpg',
-            price: 330,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
-        },
     ];
     const [allDisplayFeature, setAllDisplayFeature] = useState(
         [...responseFeature, ...allFeature]
@@ -127,7 +108,7 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                 >
 
                         {
-                            isLoading ? [1,2,3,4].map(() => (
+                            isLoading ? [1,2,3,4,5,6,7,8].map(() => (
                             <SwiperSlide>
                                 <LoadingCard/>
                             </SwiperSlide>)) :
