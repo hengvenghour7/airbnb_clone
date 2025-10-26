@@ -2,12 +2,22 @@
 
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
-import { Button, FormControl, FormHelperText, MenuItem } from '@mui/material';
+import { Alert, Button, FormControl, FormHelperText, MenuItem, Snackbar, SnackbarOrigin } from '@mui/material';
 import { userLoginType } from '@/app/lib/databaseType';
+import CheckIcon from '@mui/icons-material/Check';
 // import router from 'next/router';
-
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 export default function Login () {
+    // const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [state, setState] = useState<State>({
+            open: false,
+            vertical: 'top',
+            horizontal: 'right',
+        });
+    const { vertical, horizontal, open } = state;
     const [allLoginInput, setAllLoginInput] = useState([
         {
             fieldName: 'username',
@@ -32,6 +42,7 @@ export default function Login () {
             }))
     };
     const submitLogin = async () => {
+        setState({...state, open: true});
         const userForm: userLoginType = {
                     username: allLoginInput[0].value,
                     password: allLoginInput[1].value,
@@ -42,7 +53,7 @@ export default function Login () {
             body: JSON.stringify(userForm),
         });
         const json = await res.json();
-        // console.log('login res', json.data.success);
+        console.log('login res', json.data.success);
         if (json.data.success) {
             Object.entries(json.data.user).forEach(([key, data]) => {
                 localStorage.setItem(key, String(data));
@@ -53,7 +64,9 @@ export default function Login () {
         else {
             setIsFormError(true);
         }
-        
+    }
+    const handleClose = () => {
+        setState({...state, open: false});
     }
     return (
         <div className='pt-12 flex justify-center'>
@@ -81,6 +94,22 @@ export default function Login () {
                     <Button onClick={submitLogin} variant='contained' color='info'>Submit</Button>
                 </div>
             </div>
+            {/* <Alert severity="info">This is an info Alert.</Alert> */}
+            <Snackbar
+                anchorOrigin={{ horizontal, vertical }}
+                open={open}
+                onClose={handleClose}
+                // message="I love snacks"
+                // key={vertical + horizontal}
+            >
+                <Alert
+                severity="info"
+                variant="filled"
+                sx={{ width: '100%' }}
+                >
+                    Login in Progess
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

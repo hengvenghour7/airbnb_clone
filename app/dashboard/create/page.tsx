@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, Snackbar, SnackbarOrigin, TextField } from "@mui/material";
 import { useState } from "react";
 // import UploadButton from "../components/UploadButton";
 import { newServiceType, uploadImageDataType } from "@/app/lib/databaseType";
@@ -11,7 +11,16 @@ type uploadedImageType = {
     filename: string,
     fileURL: string,
 }
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
 export default function Create () {
+        const [state, setState] = useState<State>({
+                open: false,
+                vertical: 'top',
+                horizontal: 'right',
+            });
+        const { vertical, horizontal, open } = state;
     const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [allInputField, setAllInputField] = useState(
         [
@@ -88,6 +97,7 @@ export default function Create () {
         setAllServicesInput(prev => prev.length > 1 ? prev.slice(0, -1) : prev);
     }
     const onCreateHost = async () => {
+        setState({...state, open: true});
         const createForm: newServiceType = {
             serviceType: allInputField[0].value,
             hostname: localStorage.getItem('username') || '',
@@ -120,7 +130,10 @@ export default function Create () {
             body: JSON.stringify(uploadImageform),
         })
         console.log('upload res', uploadRes);
-        
+        setState({...state, open: false});
+    }
+     const handleClose = () => {
+        setState({...state, open: false});
     }
     return (
         <div className="h-screen overflow-scroll w-full flex justify-center">
@@ -172,6 +185,21 @@ export default function Create () {
                 <Button variant="contained" onClick={onCreateHost}>Create</Button>
                 <b className="pb-12"/>
             </div>
+            <Snackbar
+                anchorOrigin={{ horizontal, vertical }}
+                open={open}
+                onClose={handleClose}
+                // message="I love snacks"
+                // key={vertical + horizontal}
+            >
+                <Alert
+                severity="info"
+                variant="filled"
+                sx={{ width: '100%' }}
+                >
+                    Creating...
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

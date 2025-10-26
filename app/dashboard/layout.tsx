@@ -13,7 +13,7 @@ export default function hostAdmin({children} : Readonly<{children: React.ReactNo
         <html lang="en">
             <body>    
                 <div className="flex">
-                    <Sidebar className=""></Sidebar>
+                    <Sidebar></Sidebar>
                     {children}
                 </div>
             </body>
