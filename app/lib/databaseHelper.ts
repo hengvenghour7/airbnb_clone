@@ -59,8 +59,35 @@ export const getAvailableServices = async (serviceType: string = 'all', placeNam
 }
 export const getServiceDetail = async (placeName: string = 'all') => {
         // let result: postgres.RowList<(postgres.Row & Iterable<postgres.Row>)[]>;
-        const result = await sql`SELECT * from homeservices WHERE placename = ${placeName} LIMIT 1`
+        let result = await sql`SELECT * from homeservices WHERE placename = ${placeName} LIMIT 1`
         let imageResult = await sql<responseImageType[]>`SELECT * from hostimage WHERE placename = ${placeName} LIMIT 1`;
+        if (result.length === 0) {
+                result = [
+                {
+                id: 13,
+                servicetype: 'Room',
+                hostname: 'N/A',
+                accomodation: 'housing',
+                placename: 'Opera House',
+                placelocation: 'Parkmore',
+                subdescription: '',
+                description: '',
+                services: [ 'Bed cleaning' ],
+                price: '40',
+                isfavorite: null
+                }
+                ] as unknown as postgres.RowList<postgres.Row[]>
+                imageResult = [
+                                {
+                                        id: 7,
+                                        username: 'N/A',
+                                        email: '',
+                                        servicetype: 'Room',
+                                        placename: 'Opera House',
+                                        imagelinks: []
+                                }
+                        ] as unknown as postgres.RowList<responseImageType[]>
+        }
         if (imageResult[0].imagelinks.length < 5) {                
                 while (imageResult[0].imagelinks.length < 5) {
                         imageResult[0].imagelinks.push('/noImage.png')
