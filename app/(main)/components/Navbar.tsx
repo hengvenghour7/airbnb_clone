@@ -20,6 +20,7 @@ type navBarProps = {
 type navBarChildType = {
     name: String,
     isOpen: boolean,
+    value: Date
 }
 type navBarOptionType = {
     name: String,
@@ -38,7 +39,7 @@ const Transition = React.forwardRef(function Transition(
     });
 export default function Navbar ({className}: navBarProps) {
     // 'Home nearby', 'Any Weeks', '3 Guest'
-    const [navbarCenterOptions] = useState<navBarOptionArray>(
+    const [navbarCenterOptions, setNavbarCenterOptions] = useState<navBarOptionArray>(
         [
             {
                 name: 'Home nearby',
@@ -52,10 +53,12 @@ export default function Navbar ({className}: navBarProps) {
                     {
                         name: 'CheckIn',
                         isOpen: false,
+                        value: new Date()
                     },
                     {
                         name: 'CheckOut',
                         isOpen: false,
+                        value: new Date()
                     },
                 ]
             },
@@ -66,19 +69,45 @@ export default function Navbar ({className}: navBarProps) {
             }
         ]
     )
-    const [dateVal, setDateVal] = useState<Date | null>(new Date('2022-04-13'));
-    const [Volume, setVolume] = useState<number>(20);
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [memberPopOpen, setMemberPopOpen] = useState(false);
     const [memberAnchor, setmemberAnchor] = useState<null | HTMLElement>(null);
 
-  const handleCalenderClick = (event: React.MouseEvent<HTMLElement>, child: navBarChildType) => {
+  const handleCalenderClick = (event: React.MouseEvent<HTMLElement>, index: number, childIndex: number) => {
     setAnchorEl(event.currentTarget);
-    setOpen((previousOpen) => !previousOpen);
-    child.isOpen = !child.isOpen;
-    // navbarCenterOptions[1].child !== undefined && (navbarCenterOptions[1].child[childIndex].isOpen = !navbarCenterOptions[1].child[childIndex]?.isOpen);
+    setNavbarCenterOptions(prev => {
+    return prev.map((option, i) => {
+      // Only update the clicked parent option
+        if (i !== index) return option;
+
+        // Update the correct child array immutably
+        return {
+            ...option,
+            child: option.child?.map((item, j) => ({
+            ...item,
+            isOpen: j === childIndex ? !item.isOpen : false, // open only the clicked one
+            })),
+        };
+        });
+    });    
   };
+  const handlePickDate = (newValue: Date, index:number, childIndex: number) => {
+    setNavbarCenterOptions(prev => {
+    return prev.map((option, i) => {
+        if (i !== index) return option;
+
+        // Update the correct child array immutably
+        return {
+            ...option,
+            child: option.child?.map((item, j) => ({
+            ...item,
+            value: j === childIndex ? newValue : item.value, // open only the clicked one
+            })),
+        };
+        });
+    }); 
+  }
   const handleClose = () => {
     setMemberPopOpen(false);
   };
@@ -117,11 +146,6 @@ export default function Navbar ({className}: navBarProps) {
   
   const id = canBeOpen ? 'transition-popper' : undefined;
     useEffect(() => {
-        if (dateVal !== null) {
-            console.log('new date val' + format(dateVal, 'MM/dd/yyyy')+ 'new vol' + Volume);
-        }
-    }, [dateVal, Volume]);
-    useEffect(() => {
         isAuth = localStorage.getItem('isAuth') === 'true';
     }, []);
     return (
@@ -135,15 +159,16 @@ export default function Navbar ({className}: navBarProps) {
                         option.name.toLowerCase() === 'any weeks' ? 
                             option.child !== undefined && option.child.map((child, childIndex) => (
                                     <div key={`any_week_${index}_${childIndex}`}>
-                                        <button aria-describedby={`any_week_${index}_${childIndex}`} type="button" onClick={(e) => handleCalenderClick(e, child)}>
+                                        <button className='cursor-pointer' aria-describedby={`any_week_${index}_${childIndex}`} type="button" onClick={(e) => handleCalenderClick(e, index, childIndex)}>
                                             { child.name }
+                                            <p>{format(navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : '', 'MMM dd')}</p>
                                         </button>
-                                        <Popper className={Styles.calendarPopUp} id={`any_week_${index}_${childIndex}`} open={child.isOpen} anchorEl={anchorEl} transition>
+                                        <Popper className={Styles.calendarPopUp} id={`any_week_${index}_${childIndex}`} open={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].isOpen : false} anchorEl={anchorEl} transition sx={{ zIndex: 40 }}>
                                             {({ TransitionProps }) => (
                                             <Fade {...TransitionProps} timeout={350}>
                                                 <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
                                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                        <DateCalendar value={dateVal} onChange={(newDateVal) => setDateVal(newDateVal)} />
+                                                        <DateCalendar value={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : new Date()} onChange={(newDateVal) => handlePickDate(newDateVal, index, childIndex)} />
                                                     </LocalizationProvider>
                                                 </Box>
                                             </Fade>
@@ -151,8 +176,8 @@ export default function Navbar ({className}: navBarProps) {
                                         </Popper>
                                     </div>
                             ))
-                        : <div key={`center_option_${index}`}>
-                            <button aria-describedby={id}  type="button" onClick={e => handleCalenderClick(e, option)}>
+                        : <div className='flex' key={`center_option_${index}`}>
+                            <button className='cursor-pointer' aria-describedby={id}  type="button">
                                 {option.name}
                             </button>
                             <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
