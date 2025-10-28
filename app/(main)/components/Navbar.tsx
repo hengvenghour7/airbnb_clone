@@ -92,7 +92,7 @@ export default function Navbar ({className}: navBarProps) {
         });
     });    
   };
-  const handlePickDate = (newValue: Date, index:number, childIndex: number) => {
+  const handlePickDate = (newValue: Date | null, index:number, childIndex: number) => {
     setNavbarCenterOptions(prev => {
     return prev.map((option, i) => {
         if (i !== index) return option;
@@ -102,7 +102,7 @@ export default function Navbar ({className}: navBarProps) {
             ...option,
             child: option.child?.map((item, j) => ({
             ...item,
-            value: j === childIndex ? newValue : item.value, // open only the clicked one
+            value: j === childIndex ? newValue !== null ? newValue : new Date() : item.value, // open only the clicked one
             })),
         };
         });
