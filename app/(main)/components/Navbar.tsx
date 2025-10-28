@@ -159,9 +159,9 @@ export default function Navbar ({className}: navBarProps) {
                         option.name.toLowerCase() === 'any weeks' ? 
                             option.child !== undefined && option.child.map((child, childIndex) => (
                                     <div key={`any_week_${index}_${childIndex}`}>
-                                        <button className='cursor-pointer' aria-describedby={`any_week_${index}_${childIndex}`} type="button" onClick={(e) => handleCalenderClick(e, index, childIndex)}>
+                                        <button className='cursor-pointer text-sm' aria-describedby={`any_week_${index}_${childIndex}`} type="button" onClick={(e) => handleCalenderClick(e, index, childIndex)}>
                                             { child.name }
-                                            <p>{format(navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : '', 'MMM dd')}</p>
+                                            <p className='text-gray-500'>{format(navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : '', 'MMM dd')}</p>
                                         </button>
                                         <Popper className={Styles.calendarPopUp} id={`any_week_${index}_${childIndex}`} open={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].isOpen : false} anchorEl={anchorEl} transition sx={{ zIndex: 40 }}>
                                             {({ TransitionProps }) => (
@@ -177,7 +177,7 @@ export default function Navbar ({className}: navBarProps) {
                                     </div>
                             ))
                         : <div className='flex' key={`center_option_${index}`}>
-                            <button className='cursor-pointer' aria-describedby={id}  type="button">
+                            <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
                                 {option.name}
                             </button>
                             <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
