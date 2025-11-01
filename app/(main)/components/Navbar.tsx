@@ -2,7 +2,7 @@
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { format, compareAsc } from "date-fns";
-import { Button, Fade, Box, Popper, Popover, Typography, DialogTitle, DialogContent, Dialog, DialogContentText, DialogActions, Slide, ListItemButton, ListItem, List, Divider, Drawer } from "@mui/material";
+import { Button, Fade, Box, Popper, Popover, Typography, DialogTitle, DialogContent, Dialog, DialogContentText, DialogActions, Slide, ListItemButton, ListItem, List, Divider, Drawer, IconButton } from "@mui/material";
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useState, useEffect, useRef } from "react";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { TransitionProps } from '@mui/material/transitions';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 type navBarProps = {
@@ -63,7 +64,7 @@ export default function Navbar ({className}: navBarProps) {
                 ]
             },
             {
-                name: '3 Guest',
+                name: 'Add Guest',
                 isOpen: false,
                 child: [],
             }
@@ -176,7 +177,27 @@ export default function Navbar ({className}: navBarProps) {
                                         </Popper>
                                     </div>
                             ))
-                        : <div className='flex' key={`center_option_${index}`}>
+                        : option.name.toLowerCase() === 'add guest' ? 
+                        <div className='flex' key={`center_option_${index}`}>
+                            <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
+                                {option.name}
+                            </button>
+                            <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
+                                {({ TransitionProps }) => (
+                                <Fade {...TransitionProps} timeout={350}>
+                                    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                                    The content of the Popper.
+                                    </Box>
+                                </Fade>
+                                )}
+                            </Popper>
+                            <Link href={'/search'}>
+                                <IconButton >
+                                    <SearchIcon/>
+                                </IconButton >
+                            </Link>
+                        </div> :
+                        <div className='flex' key={`center_option_${index}`}>
                             <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
                                 {option.name}
                             </button>

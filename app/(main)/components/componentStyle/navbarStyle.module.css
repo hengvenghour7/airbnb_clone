@@ -16,7 +16,7 @@
     /* border-right: solid 2px rgb(168, 168, 168); */
 }
 .centerButtonContainer div:hover {
-    background-color: rgb(170, 170, 170);
+    background-color: rgb(232, 232, 232);
 }
 .centerButtonContainer div:first-child {
     border-top-left-radius: 9999px;
