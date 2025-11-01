@@ -53,7 +53,6 @@ export default function Login () {
             body: JSON.stringify(userForm),
         });
         const json = await res.json();
-        console.log('login res', json.data.success);
         if (json.data.success) {
             Object.entries(json.data.user).forEach(([key, data]) => {
                 localStorage.setItem(key, String(data));
