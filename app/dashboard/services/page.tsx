@@ -9,6 +9,8 @@ type FeatureType = {
     price: number,
     content: string,
     isFavorite: boolean,
+    startDate: Date | null,
+    endDate: Date | null
 }
 export default function Services () {
     const [responseFeature, setResponseFeature] = useState<FeatureType[]>([])
@@ -19,13 +21,15 @@ export default function Services () {
             await fetch(`/api/getallservices?servicetype=other&hostname=${hostname}`)
             .then(res => res.json())
             .then(res => setResponseFeature(
-                res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[]}) => {
+                res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[], startdate: Date, enddate: Date}) => {
                 return {
                     name: item.placename,
                     imageSrc: item.imagelinks.length > 0 ? item.imagelinks[0] : './images/tourImg1.jpg',
                     price: item.price,
                     Content: item.description,
                     isFavourite: false,
+                    startDate: item.startdate,
+                    endDate: item.enddate
                 }
             })
             ))
@@ -48,6 +52,8 @@ export default function Services () {
                         price={feature.price}
                         content={feature.content}  
                         isFavorite= {feature.isFavorite !== undefined ? feature.isFavorite : false}
+                        startDate= {feature.startDate}
+                        endDate= {feature.endDate}
                         key={`locationcard_${index}`}
                         />
                     ))

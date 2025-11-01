@@ -34,8 +34,8 @@ export const userLogin = async (user:userLoginType) => {
 }
 export const createNewService = async (service:newServiceType) => {
         const result = await sql`
-        INSERT INTO homeservices (hostname, servicetype, accomodation, placename, placelocation, subdescription, description, services, price)
-        VALUES (${service.hostname}, ${service.serviceType}, ${service.accomodation}, ${service.placename}, ${service.placeLocation}, ${service.subDescription}, ${service.description}, ${service.services}, ${service.price})
+        INSERT INTO homeservices (hostname, servicetype, accomodation, placename, placelocation, subdescription, description, services, price, startdate, enddate)
+        VALUES (${service.hostname}, ${service.serviceType}, ${service.accomodation}, ${service.placename}, ${service.placeLocation}, ${service.subDescription}, ${service.description}, ${service.services}, ${service.price}, ${service.startDate}, ${service.endDate})
         RETURNING *;
         `;
 }

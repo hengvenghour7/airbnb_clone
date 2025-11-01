@@ -33,7 +33,9 @@ export type newServiceType = {
     description: string
     services: string[],
     price: number,
-    isFavorite: boolean
+    isFavorite: boolean,
+    startDate: Date,
+    endDate: Date
 }
 export type uploadImageDataType = {
     username: string,

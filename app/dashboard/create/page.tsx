@@ -1,10 +1,14 @@
 'use client'
 
-import { Alert, Button, Snackbar, SnackbarOrigin, TextField } from "@mui/material";
+import { Alert, Box, Button, Fade, FormControl, InputLabel, MenuItem, Popper, Select, Snackbar, SnackbarOrigin, TextField } from "@mui/material";
 import { useState } from "react";
 // import UploadButton from "../components/UploadButton";
 import { newServiceType, uploadImageDataType } from "@/app/lib/databaseType";
 import { CldUploadWidget } from 'next-cloudinary';
+import { LocalizationProvider, DateCalendar, DateTimePicker } from "@mui/x-date-pickers";
+import { format, compareAsc } from "date-fns";  
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Console, log } from "console";
 
 let optionNum = 1;
 type uploadedImageType = {
@@ -14,6 +18,17 @@ type uploadedImageType = {
 interface State extends SnackbarOrigin {
   open: boolean;
 }
+type InputKey =
+  | 'serviceType'
+  | 'accomodationType'
+  | 'placeName'
+  | 'location'
+  | 'startDate'
+  | 'endDate'
+  | 'price'
+  | 'services'
+  | 'subDescription'
+  | 'Description';
 export default function Create () {
         const [state, setState] = useState<State>({
                 open: false,
@@ -23,49 +38,73 @@ export default function Create () {
         const { vertical, horizontal, open } = state;
     const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [allInputField, setAllInputField] = useState(
-        [
-            {
+        {
+            serviceType: {
                 fieldName: 'service type',
                 value: '',
                 required: true,
             },
-            {
-                fieldName: 'accomodation type',
+            accomodationType: {
+                fieldName: 'Accomodation type',
                 value: '',
                 required: true,
             },
-            {
-                fieldName: 'place name',
+            placeName: {
+                fieldName: 'Place name',
                 value: '',
                 required: true,
             },
-            {
-                fieldName: 'location',
+            location: {
+                fieldName: 'Location',
                 value: '',
                 required: true,
             },
-            {
-                fieldName: 'price',
+            startDate: {
+                fieldName: 'Start Date',
+                value: new Date(),
+                required: true,
+            },
+            endDate: {
+                fieldName: 'End Date',
+                value: new Date(),
+                required: true,
+            },
+            price: {
+                fieldName: 'Price',
                 value: '',
                 required: true,
             },
-            {
+            services: {
                 fieldName: 'services',
                 value: '',
-                required: false,
+                required: true,
             },
-            {
-                fieldName: 'sub description',
+            subDescription: {
+                fieldName: 'sub decription',
                 value: '',
                 required: true,
             },
-            {
+            Description: {
                 fieldName: 'description',
                 value: '',
                 required: true,
-            }
-        ]
+            },
+        }
     )
+    const accomodationType = [
+        {
+            display: 'Home',
+            value: 'homes'
+        },
+        {
+            display: 'Experience',
+            value: 'experiences'
+        },
+        {
+            display: 'Service',
+            value: 'services'
+        }
+    ]
     const [allServicesInput, setAllServicesInput] = useState([
         {
             option: 'service 1',
@@ -83,15 +122,24 @@ export default function Create () {
     const handleUploadImage = (filename:string, fileURL: string) => {
         setuploadedImages(prev => [...prev, {filename, fileURL}]);
     }
-    const handleInputChange = (index:number, newValue: string) => {
-        setAllInputField(prev => prev.map((field, i) => {
-            return i === index ? {...field, value: newValue}: field;
-        }))
+    const handleInputChange = (key: InputKey, newValue: string | null | Date) => {
+        setAllInputField(prev => (
+            {
+                ...prev,
+                [key]: {
+                    ...prev[key],
+                    value: newValue
+                }
+            }
+        ))
     }
     const handleServiceInput = (index:number, newValue: string) => {
         setAllServicesInput(prev => prev.map((field, i) => {
             return i === index ? {...field, value: newValue}: field;
         }))
+    }
+    const handleDateChange = (key: string , newValue: Date | null) => {
+        
     }
     const removeService = () => {
         setAllServicesInput(prev => prev.length > 1 ? prev.slice(0, -1) : prev);
@@ -99,17 +147,21 @@ export default function Create () {
     const onCreateHost = async () => {
         setState({...state, open: true});
         const createForm: newServiceType = {
-            serviceType: allInputField[0].value,
+            serviceType: allInputField.serviceType.value,
             hostname: localStorage.getItem('username') || '',
-            accomodation: allInputField[1].value,
-            placename: allInputField[2].value,
-            placeLocation: allInputField[3].value,
-            price: Number(allInputField[4].value),
+            accomodation: allInputField.accomodationType.value,
+            placename: allInputField.placeName.value,
+            placeLocation: allInputField.location.value,
+            price: Number(allInputField.price.value),
             isFavorite: false,
             services: allServicesInput.map(item => item.value),
-            subDescription: allInputField[6].value,
-            description: allInputField[7].value
+            subDescription: allInputField.subDescription.value,
+            description: allInputField.Description.value,
+            startDate: allInputField.startDate.value,
+            endDate: allInputField.endDate.value
         }
+        console.log("fform", allInputField.serviceType.value);
+        
         const uploadImageform: uploadImageDataType = {
             username: createForm.hostname,
             email: '',
@@ -140,20 +192,53 @@ export default function Create () {
             <div className="flex flex-col gap-3 m-3 mt-12 w-[60%]">
                 <h3 className="text-blue-600">Create your Services</h3>
                 {
-                    allInputField.map((item, index) => (
-                        item.fieldName !== 'services' ? <TextField key={index} onChange={(e) => handleInputChange(index, e.target.value)} label={item.fieldName} /> :
+                    Object.entries(allInputField).map(([key, value], index) => (
+                        value.fieldName === 'services' ? 
                         <div key={`option_box_${index}`} className="flex flex-col gap-3">
                             <h3 className="text-blue-600">Provided services</h3>
                             {
-                                allServicesInput.map((item, index) => (
-                                    <TextField onChange={(e) => handleServiceInput(index, e.target.value)} key={`option_${index}`} label={item.option} />
+                                allServicesInput.map((item, index2) => (
+                                    <TextField onChange={(e) => handleServiceInput(index2, e.target.value)} key={`option_${index2}`} label={item.option} />
                                 ))
                             }
                             <div className="flex gap-3">
                                 <Button onClick={addService} variant="contained" color="info">Add</Button>
                                 <Button onClick={removeService} variant="contained" color="error">Remove</Button>
                             </div>
+                        </div> : value.fieldName === 'Start Date' || value.fieldName === 'End Date' ? 
+                        <div key={index}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <DateTimePicker
+                                    value={value.value instanceof Date ? value.value : new Date()}
+                                    label={value.fieldName}
+                                    onChange={(newDate) => handleInputChange(key as InputKey, newDate)}
+                                    format="MMM dd yyyy"
+                                    />
+                                </LocalizationProvider>
                         </div>
+                        : value.fieldName === 'service type' ? 
+                        <FormControl key={index}>
+                            <InputLabel id="demo-simple-select-autowidth-label">Service Type</InputLabel>
+                            <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={value.value}
+                            label="Service Type"
+                            onChange={(e) => {handleInputChange(key as InputKey, e.target.value);
+                            }}
+                        >
+                            {
+                                accomodationType.map(item => (
+                                    <MenuItem value={item.value}>{item.display}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                        </FormControl>
+                         :
+                        <FormControl key={index}>
+                            <TextField label={value.fieldName} onChange={(e) => handleInputChange(key as InputKey, e.target.value)} />
+                        </FormControl>
+                        
                     ))
                 }
                 <CldUploadWidget uploadPreset="unsigned_preset" onSuccess={(result) => {
@@ -182,7 +267,9 @@ export default function Create () {
                         }
                     </div> 
                 }
-                <Button variant="contained" onClick={onCreateHost}>Create</Button>
+                <Button variant="contained" 
+                onClick={onCreateHost}
+                >Create</Button>
                 <b className="pb-12"/>
             </div>
             <Snackbar

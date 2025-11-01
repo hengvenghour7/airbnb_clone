@@ -14,6 +14,8 @@ type FeatureType = {
     price: number,
     content: string,
     isFavorite: boolean,
+    startDate: Date | null,
+    endDate: Date | null
 }
 
 
@@ -28,13 +30,15 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
             await fetch('/api/getallservices')
             .then(res => res.json())
             .then(res => setResponseFeature(
-                res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[]}) => {
+                res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[], startdate: Date, enddate: Date}) => {
                 return {
                     name: item.placename,
                     imageSrc: item.imagelinks.length > 0 ? item.imagelinks[0] : './images/tourImg1.jpg',
                     price: item.price,
                     Content: item.description,
                     isFavourite: false,
+                    startDate: item.startdate,
+                    endDate: item.enddate
                 }
             })
             ))
@@ -58,31 +62,32 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
             price: 200,
             content: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
             isFavorite: true,
+            startDate: null,
+            endDate: null
         },
         {
             name: 'Darling Habour',
             imageSrc: './images/tourImg2.jpg',
             price: 350,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
+            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
+            startDate: null,
+            endDate: null
         },
         {
             name: 'Hyde park',
             imageSrc: './images/tourImg3.jpg',
             price: 400,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
+            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
+            startDate: null,
+            endDate: null
         },
         {
             name: 'Darling Habour',
             imageSrc: './images/tourImg2.jpg',
             price: 380,
-            content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.'
-        },
-        {
-            name: 'Darling Habour',
-            imageSrc: './images/tourImg2.jpg',
-            price: 330,
             content: 'Opening to the azure vistas of the sea, The Darling Harbour is a pedestrian and a recreational quarter filled with exhibitions, museums, entertainment venues, shops and restaurants.',
-            isFavorite: true
+            startDate: null,
+            endDate: null
         },
     ];
     const [allDisplayFeature, setAllDisplayFeature] = useState(
@@ -120,6 +125,8 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                                 price={feature.price}
                                 content={feature.content}  
                                 isFavorite= {feature.isFavorite !== undefined ? feature.isFavorite : false}
+                                startDate= {feature.startDate}
+                                endDate= {feature.endDate}
                                 key={`locationcard_${index}`}
                                 />
                             </SwiperSlide>

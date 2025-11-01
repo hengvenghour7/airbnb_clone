@@ -2,6 +2,8 @@ import { Card, Box, CardActions, CardContent, Button, Typography, CardMedia, Car
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Link from 'next/link';
+import { format, compareAsc } from "date-fns";
+import { start } from "repl";
 
 
 const bull = (
@@ -17,9 +19,11 @@ type LocationCardType = {
     price: number,
     content: string,
     isFavorite: boolean,
+    startDate: Date | null,
+    endDate: Date | null
 }
 
-export default function LocationCard ({name, imageSrc, price, content, isFavorite} : LocationCardType) {
+export default function LocationCard ({name, imageSrc, price, content, isFavorite, startDate, endDate} : LocationCardType) {    
     return (
         <div>
             <Link href={`/place?placename=${name}`}>
@@ -34,6 +38,9 @@ export default function LocationCard ({name, imageSrc, price, content, isFavorit
                     <CardContent>
                     <Typography gutterBottom component="div">
                         {name}
+                    </Typography>
+                    <Typography gutterBottom component="div">
+                        { format(startDate !== null && startDate !== undefined ? startDate : new Date(), 'dd MMM')} - { format(endDate !== null && endDate !== undefined ? endDate : new Date(), 'dd MMM')}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                         {`$ ${price} AUD for 2 Nights`}
