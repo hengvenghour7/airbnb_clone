@@ -16,8 +16,6 @@ export default function Place({allImageSrc}: {allImageSrc?: string[]}) {
             .then(res => res.json())
             .then((res) => setLocationDetail(res.data[0]))
             .then(() => setIsloading(false))
-            .then(() => console.log(locationDetail.placename)
-            )
         }
         fetchData();
     }, [])

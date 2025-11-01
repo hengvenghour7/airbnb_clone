@@ -69,9 +69,7 @@ export default function FeatureCard ({name, allImageSrc, price, content, isFavor
                         }
                         <IconButton className="!ml-auto" aria-label="add to favorites" onClick={(e) => {
                             e.preventDefault(); // prevents Link navigation
-            e.stopPropagation();
-            console.log('ii', e);
-            
+                            e.stopPropagation();            
                         }}>
                             <FavoriteIcon className="stroke-white" />
                         </IconButton>
