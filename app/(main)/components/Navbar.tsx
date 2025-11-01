@@ -178,7 +178,7 @@ export default function Navbar ({className}: navBarProps) {
                                     </div>
                             ))
                         : option.name.toLowerCase() === 'add guest' ? 
-                        <div className='flex' key={`center_option_${index}`}>
+                        <div className='flex gap-3' key={`center_option_${index}`}>
                             <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
                                 {option.name}
                             </button>
@@ -192,8 +192,8 @@ export default function Navbar ({className}: navBarProps) {
                                 )}
                             </Popper>
                             <Link href={'/search'}>
-                                <IconButton >
-                                    <SearchIcon/>
+                                <IconButton className='!bg-red-500' >
+                                    <SearchIcon className='!fill-amber-50'/>
                                 </IconButton >
                             </Link>
                         </div> :
