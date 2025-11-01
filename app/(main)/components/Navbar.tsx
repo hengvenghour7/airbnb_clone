@@ -155,7 +155,7 @@ export default function Navbar ({className}: navBarProps) {
                 <Link href={'/'} className='text-2xl font-bold text-red-600'>
                     clonebnb
                 </Link>
-                <div className={clsx('flex justify-between border-1 rounded-full bg-white shadow-md', Styles.centerButtonContainer)}>
+                <div className={clsx('hidden md:flex justify-between border-1 rounded-full bg-white shadow-md', Styles.centerButtonContainer)}>
                     {navbarCenterOptions.map((option, index) => (
                         option.name.toLowerCase() === 'any weeks' ? 
                             option.child !== undefined && option.child.map((child, childIndex) => (
@@ -213,6 +213,13 @@ export default function Navbar ({className}: navBarProps) {
                         </div>
                         
                     ))}
+                </div>
+                <div className='inline-block md:hidden'>
+                    <Link href={'/search'}>
+                        <IconButton className='!bg-red-500' >
+                            <SearchIcon className='!fill-amber-50'/>
+                        </IconButton >
+                    </Link>
                 </div>
                 <div>
                     <React.Fragment>

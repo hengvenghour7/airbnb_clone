@@ -9,8 +9,6 @@ export default function UploadButton() {
     return (
         <CldUploadWidget uploadPreset="unsigned_preset" onSuccess={(result) => {
             if (typeof result.info === 'object' && result.info.secure_url) {
-                console.log('Upload result:', result);
-                // result.info.secure_url has the uploaded image URL
                 setImageSrc(result.info.secure_url);
             }
         }}>

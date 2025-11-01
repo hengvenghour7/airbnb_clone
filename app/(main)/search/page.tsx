@@ -38,8 +38,8 @@ export default function Search () {
         };
         fetchData();
     }, [])
-    return  <div className="mx-4 grid grid-cols-2">
-                <div className="mr-3 pt-4 grid grid-cols-3 gap-3 h-[calc(100vh-172px)] overflow-scroll">
+    return  <div className="mx-4 grid grid-cols-1 md:grid-cols-2">
+                <div className="mr-3 pt-4 grid grid-cols-3 gap-3 md:h-[calc(100vh-172px)] md:overflow-scroll order-2 md:order-2">
                     {
                         isLoading ? [1,2,3,4,5,6,7,8].map((feature, index) => (
                             <LoadingCard key={`loading_${index}`}/>
@@ -57,7 +57,7 @@ export default function Search () {
                         ))
                     }
                 </div>
-                <div className="pt-4">
+                <div className="pt-4 aspect-square md:aspect-auto order-1 md:order-2">
                     <GoogleMap></GoogleMap>
                 </div>
         </div>

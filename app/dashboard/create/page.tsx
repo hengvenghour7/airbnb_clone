@@ -160,7 +160,6 @@ export default function Create () {
             startDate: allInputField.startDate.value,
             endDate: allInputField.endDate.value
         }
-        console.log("fform", allInputField.serviceType.value);
         
         const uploadImageform: uploadImageDataType = {
             username: createForm.hostname,
@@ -169,7 +168,6 @@ export default function Create () {
             imagelinks: uploadedImages.length > 0 ? uploadedImages.map(item => item.fileURL) : [],
             servicetype: '',
         }
-        console.log('services', createForm);
         
         const res = await fetch('/api/createplace', {
             method: 'POST',
@@ -181,7 +179,6 @@ export default function Create () {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(uploadImageform),
         })
-        console.log('upload res', uploadRes);
         setState({...state, open: false});
     }
      const handleClose = () => {
@@ -244,7 +241,6 @@ export default function Create () {
                 <CldUploadWidget uploadPreset="unsigned_preset" onSuccess={(result) => {
                     if (typeof result.info === 'object' && result.info.secure_url) {
                         handleUploadImage(result.info.original_filename, result.info.secure_url);
-                        console.log('Upload result:', result);
                     }
                 }}>
                 {({ open }) => {
