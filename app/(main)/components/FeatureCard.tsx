@@ -17,6 +17,7 @@ const bull = (
   </Box>
 );
 type LocationCardType = {
+    id: number,
     name: string,
     allImageSrc: string[],
     price: number,
@@ -25,11 +26,12 @@ type LocationCardType = {
     startDate: Date | null,
     endDate: Date | null,
     classname?: string
+    onMouseEnter?: (id:number, isHover: boolean) =>  void,
 }
 
-export default function FeatureCard ({name, allImageSrc, price, content, isFavorite, startDate, endDate, classname} : LocationCardType) {   
+export default function FeatureCard ({id, name, allImageSrc, price, content, isFavorite, startDate, endDate, classname, onMouseEnter} : LocationCardType) {   
     return (
-        <div className={`featureCard ${classname}`}>
+        <div className={`featureCard ${classname}`} onMouseEnter={() => onMouseEnter !== undefined && onMouseEnter(id, true)}>
             <Link href={`/place?placename=${name}`}>
                 <Card className="relative">
                         <Swiper

@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useMemo } from 'react';
 
 type MapProps = {
-  allMarkers: {price:number, coordinate: number[]}[]
+  allMarkers: {id:number, price:number, coordinate: number[], isHover: boolean}[]
 }
 const MapChildComponent = ({allMarkers}: MapProps) => {
         const center = useMemo(() => ({ lat: -37.8136, lng: 144.9631 }), []); // Melbourne
@@ -29,7 +29,7 @@ const MapChildComponent = ({allMarkers}: MapProps) => {
                   icon={{
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 22,
-                    fillColor: '#ff385c',
+                    fillColor: item.isHover ? 'black' : '#ff385c',
                     fillOpacity: 1,
                     strokeColor: 'white',
                     strokeWeight: 2

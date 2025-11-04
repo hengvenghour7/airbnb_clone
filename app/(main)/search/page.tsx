@@ -6,6 +6,7 @@ import FeatureCard from "../components/FeatureCard";
 // import GoogleMap from "../components/GoogleMap";
 
 type FeatureType = {
+    id: number,
     name: string,
     imageSrc: string[],
     price: number,
@@ -15,18 +16,26 @@ type FeatureType = {
     endDate: Date | null,
     coordinate: number[] | null
 }
-type serviceResponseType = { placename: any;
-     price: any,
-     description: any,
+type serviceResponseType = { 
+        id: number;
+     placename: string;
+     price: string,
+     description: string,
      imagelinks: string[], 
      startdate: Date, 
      enddate: Date, 
      coordinate: number[]
     }
+type markerType = {
+    id: number,
+    price:number, 
+    coordinate: number[],
+    isHover: boolean,
+}
 export default function Search () {
     const [isLoading, setIsloading] = useState(true);
     const [responseFeature, setResponseFeature] = useState<FeatureType[]>([])
-    const [allMarker, setAllMarker] = useState<{price:number, coordinate: number[]}[]>([]);
+    const [allMarker, setAllMarker] = useState<markerType[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             await fetch('/api/getallservices')
@@ -34,6 +43,7 @@ export default function Search () {
             .then(res => {
                 setAllMarker(res.data.filter((item: serviceResponseType)  => item.coordinate !== null).map((item: serviceResponseType) => (
                     {
+                        id: item.id,
                         price: item.price,
                         coordinate: item.coordinate
                     }
@@ -41,6 +51,7 @@ export default function Search () {
                 setResponseFeature(
                 res.data.map((item: serviceResponseType) => {
                 return {
+                    id: item.id,
                     name: item.placename,
                     imageSrc: item.imagelinks.length > 0 ? item.imagelinks : ['./images/tourImg1.jpg'],
                     price: item.price,
@@ -61,6 +72,13 @@ export default function Search () {
         console.log('fdsaf', allMarker);
         
     }, [allMarker])
+    const changeMarkerHighlight = (id:number, isHover: boolean) => {
+        setAllMarker(prev => prev.map(item => item.id === id ? {
+            ...item, isHover
+        } : {...item, isHover: false}))
+        console.log('nnn state', allMarker);
+        
+    }
     return  <div className="mx-4 grid grid-cols-1 md:grid-cols-2">
                 <div className="mr-3 pt-4 grid grid-cols-3 gap-3 md:h-[calc(100vh-172px)] md:overflow-scroll order-2 md:order-2">
                     {
@@ -68,6 +86,7 @@ export default function Search () {
                             <LoadingCard key={`loading_${index}`}/>
                         )) : responseFeature.map((feature, index) => (
                             <FeatureCard 
+                                id = {feature.id}
                                 name={feature.name} 
                                 allImageSrc={feature.imageSrc} 
                                 price={feature.price}
@@ -76,6 +95,7 @@ export default function Search () {
                                 startDate= {feature.startDate}
                                 endDate= {feature.endDate}
                                 key={`locationcard_${index}`}
+                                onMouseEnter={(id, isHover) => changeMarkerHighlight(id, isHover)}
                             />
                         ))
                     }
