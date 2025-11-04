@@ -12,17 +12,34 @@ type FeatureType = {
     content: string,
     isFavorite: boolean,
     startDate: Date | null,
-    endDate: Date | null
+    endDate: Date | null,
+    coordinate: number[] | null
 }
+type serviceResponseType = { placename: any;
+     price: any,
+     description: any,
+     imagelinks: string[], 
+     startdate: Date, 
+     enddate: Date, 
+     coordinate: number[]
+    }
 export default function Search () {
     const [isLoading, setIsloading] = useState(true);
     const [responseFeature, setResponseFeature] = useState<FeatureType[]>([])
+    const [allMarker, setAllMarker] = useState<{price:number, coordinate: number[]}[]>([]);
     useEffect(() => {
         const fetchData = async () => {
             await fetch('/api/getallservices')
             .then(res => res.json())
-            .then(res => setResponseFeature(
-                res.data.map((item: { placename: any; price: any; description: any; imagelinks: string[], startdate: Date, enddate: Date}) => {
+            .then(res => {
+                setAllMarker(res.data.filter((item: serviceResponseType)  => item.coordinate !== null).map((item: serviceResponseType) => (
+                    {
+                        price: item.price,
+                        coordinate: item.coordinate
+                    }
+                )))
+                setResponseFeature(
+                res.data.map((item: serviceResponseType) => {
                 return {
                     name: item.placename,
                     imageSrc: item.imagelinks.length > 0 ? item.imagelinks : ['./images/tourImg1.jpg'],
@@ -30,14 +47,20 @@ export default function Search () {
                     content: item.description,
                     isFavorite: false,
                     startDate: item.startdate,
-                    endDate: item.enddate
-                }
+                    endDate: item.enddate,
+                    coordinate: item.coordinate
+                    }
+                })
+                )
             })
-            ))
             .then(() => setIsloading(false))
         };
         fetchData();
     }, [])
+    useEffect(() => {
+        console.log('fdsaf', allMarker);
+        
+    }, [allMarker])
     return  <div className="mx-4 grid grid-cols-1 md:grid-cols-2">
                 <div className="mr-3 pt-4 grid grid-cols-3 gap-3 md:h-[calc(100vh-172px)] md:overflow-scroll order-2 md:order-2">
                     {
@@ -58,7 +81,7 @@ export default function Search () {
                     }
                 </div>
                 <div className="pt-4 aspect-square md:aspect-auto order-1 md:order-2">
-                    <GoogleMap></GoogleMap>
+                    <GoogleMap allMarkers={allMarker}></GoogleMap>
                 </div>
         </div>
 }

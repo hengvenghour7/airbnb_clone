@@ -35,7 +35,8 @@ export type newServiceType = {
     price: number,
     isFavorite: boolean,
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    coordinate: number[],
 }
 export type uploadImageDataType = {
     username: string,

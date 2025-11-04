@@ -111,7 +111,6 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                 slidesPerView={PreviewAmount}
                 onSwiper={(instance) => setSwiper(instance)}
                 >
-
                         {
                             isLoading ? [1,2,3,4,5,6,7,8].map(() => (
                             <SwiperSlide>

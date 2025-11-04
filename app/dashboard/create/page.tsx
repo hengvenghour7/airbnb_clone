@@ -9,6 +9,7 @@ import { LocalizationProvider, DateCalendar, DateTimePicker } from "@mui/x-date-
 import { format, compareAsc } from "date-fns";  
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Console, log } from "console";
+import LocationPicker from "@/app/(main)/components/LocationPicker";
 
 let optionNum = 1;
 type uploadedImageType = {
@@ -57,6 +58,11 @@ export default function Create () {
             location: {
                 fieldName: 'Location',
                 value: '',
+                required: true,
+            },
+            coordinate: {
+                fieldName: 'Coordinate',
+                value: [] as number[],
                 required: true,
             },
             startDate: {
@@ -122,7 +128,7 @@ export default function Create () {
     const handleUploadImage = (filename:string, fileURL: string) => {
         setuploadedImages(prev => [...prev, {filename, fileURL}]);
     }
-    const handleInputChange = (key: InputKey, newValue: string | null | Date) => {
+    const handleInputChange = (key: InputKey, newValue: string | null | Date | string[] | number []) => {
         setAllInputField(prev => (
             {
                 ...prev,
@@ -158,8 +164,10 @@ export default function Create () {
             subDescription: allInputField.subDescription.value,
             description: allInputField.Description.value,
             startDate: allInputField.startDate.value,
-            endDate: allInputField.endDate.value
+            endDate: allInputField.endDate.value,
+            coordinate: allInputField.coordinate.value
         }
+        console.log('createfff', createForm);
         
         const uploadImageform: uploadImageDataType = {
             username: createForm.hostname,
@@ -183,6 +191,17 @@ export default function Create () {
     }
      const handleClose = () => {
         setState({...state, open: false});
+    }
+    const handleCoordinateChange = (key:InputKey ,coordinate: number[]) => {        
+        setAllInputField(prev => (
+            {
+                ...prev,
+                [key]: {
+                    ...prev[key],
+                    value: coordinate
+                }
+            }
+        ))
     }
     return (
         <div className="h-screen overflow-scroll w-full flex justify-center">
@@ -231,6 +250,14 @@ export default function Create () {
                             }
                         </Select>
                         </FormControl>
+                         : value.fieldName === 'Coordinate' ? <div key={`location_${index}`}>
+                            <LocationPicker classname="mb-4" onLocationSelect= {(coordinate) => {
+                                handleCoordinateChange(key as InputKey, coordinate)
+                            }}/>
+                            <FormControl className="w-full">
+                                <TextField disabled value={Array.isArray(value.value) && value.value[0] !== undefined ? `${value.value[0]}, ${value.value[1]}` : 'Pick your Location' } label={value.fieldName} />
+                            </FormControl>
+                         </div> 
                          :
                         <FormControl key={index}>
                             <TextField label={value.fieldName} onChange={(e) => handleInputChange(key as InputKey, e.target.value)} />
@@ -272,8 +299,6 @@ export default function Create () {
                 anchorOrigin={{ horizontal, vertical }}
                 open={open}
                 onClose={handleClose}
-                // message="I love snacks"
-                // key={vertical + horizontal}
             >
                 <Alert
                 severity="info"

@@ -2,7 +2,10 @@
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useMemo } from 'react';
 
-const MapChildComponent = () => {
+type MapProps = {
+  allMarkers: {price:number, coordinate: number[]}[]
+}
+const MapChildComponent = ({allMarkers}: MapProps) => {
         const center = useMemo(() => ({ lat: -37.8136, lng: 144.9631 }), []); // Melbourne
         const allResort = [
           { name: 'Resort A', lat: -37.81, lng: 144.99, price: 230 },
@@ -15,17 +18,17 @@ const MapChildComponent = () => {
               zoom={12}
             >
               {
-                allResort.map((resort, index) => (
-                  <Marker key={`marker_${index}`} position={{lat: resort.lat, lng: resort.lng}}
+                allMarkers.map((item, index) => (
+                  <Marker key={`marker_${index}`} position={{lat: item.coordinate[0], lng: item.coordinate[1]}}
                   label={{
-                    text: `$${resort.price}`,
+                    text: `$${item.price}`,
                     color: 'white',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontWeight: 'bold'
                   }}
                   icon={{
                     path: google.maps.SymbolPath.CIRCLE,
-                    scale: 20,
+                    scale: 22,
                     fillColor: '#ff385c',
                     fillOpacity: 1,
                     strokeColor: 'white',
@@ -38,13 +41,13 @@ const MapChildComponent = () => {
             </GoogleMap>
         )
       }
-export default function MyMap() {
+export default function MyMap({allMarkers}: MapProps) {
   return (
     (typeof window !== 'undefined' && window.google && window.google.maps) ? 
-      <MapChildComponent />
+      <MapChildComponent allMarkers={allMarkers} />
      :
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-      <MapChildComponent />
+      <MapChildComponent allMarkers={allMarkers}/>
     </LoadScript>
   );
 }
