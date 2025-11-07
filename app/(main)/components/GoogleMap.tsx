@@ -1,5 +1,5 @@
 'use client';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { useMemo } from 'react';
 
 type MapProps = {
@@ -42,12 +42,13 @@ const MapChildComponent = ({allMarkers}: MapProps) => {
         )
       }
 export default function MyMap({allMarkers}: MapProps) {
+  const { isLoaded } = useJsApiLoader({
+                libraries: ['places'],
+                googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+            });
   return (
-    (typeof window !== 'undefined' && window.google && window.google.maps) ? 
+    !isLoaded ? <p>Loading map...</p> :
       <MapChildComponent allMarkers={allMarkers} />
-     :
-    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
-      <MapChildComponent allMarkers={allMarkers}/>
-    </LoadScript>
+     
   );
 }
