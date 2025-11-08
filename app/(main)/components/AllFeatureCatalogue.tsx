@@ -20,15 +20,15 @@ type CatelogueFeatureType = {
     title: string,
     features: FeatureType[]
   }
-  melbourne: {
+  melbourne?: {
     title: string,
     features: FeatureType[]
   }
-  adelaide: {
+  adelaide?: {
     title: string,
     features: FeatureType[]
   }
-  sydney: {
+  sydney?: {
     title: string,
     features: FeatureType[]
   }
@@ -65,7 +65,24 @@ export default function AllFeatureCatalogue() {
   }
   const [isLoading, setIsloading] = useState(true);
   const [responseFeature, setResponseFeature] = useState<FeatureType[]>([])
-  const [catalogueFeature, setcatalogueFeature] = useState<CatelogueFeatureType>({} as CatelogueFeatureType)
+  const [catalogueFeature, setcatalogueFeature] = useState<CatelogueFeatureType>({
+    all: {
+      title: 'All Availability',
+      features: [],
+    },
+    melbourne: {
+      title: 'Available in Melbourne',
+      features: [],
+    },
+    adelaide: {
+      title: 'Available in Adelaide',
+      features: [],
+    },
+    sydney: {
+      title: 'Available in Sydney',
+      features: [],
+    }
+  });
   useEffect (() => {
     const fetchData = async () => {
               await fetch('/api/getallservices')
@@ -146,7 +163,7 @@ export default function AllFeatureCatalogue() {
     <div>
       {
         Object.entries(catalogueFeature).map(([key,value], index) => (
-          <Feature key={`catalogue_${index}`} catalogue={value.title} allFeatures={value.features} />
+          <Feature key={`catalogue_${index}`} catalogue={value.title} allFeatures={value.features} isLoading={isLoading} />
         ))
       }
     </div>
