@@ -19,7 +19,7 @@ type FeatureType = {
 }
 
 
-export default function Feature ({catalogue, revenueCust}: {catalogue:string, revenueCust?:serviceDataType[]}) {
+export default function Feature ({catalogue, allFeatures}: {catalogue:string, allFeatures: FeatureType[]}) {
     // const allFeature = ['bunning', 'shopping', 'trading', 'bali', 'banana'];
     const [PreviewAmount, setPreViewAmount] = useState(2);    
     const [isLoading, setIsloading] = useState(true);
@@ -116,7 +116,7 @@ export default function Feature ({catalogue, revenueCust}: {catalogue:string, re
                             <SwiperSlide>
                                 <LoadingCard/>
                             </SwiperSlide>)) :
-                        allDisplayFeature.map((feature, index) => (
+                        allFeatures.map((feature, index) => (
                             <SwiperSlide>
                                 <LocationCard 
                                 name={feature.name} 

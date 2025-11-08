@@ -280,7 +280,7 @@ export default function Footer () {
     setValue(newValue);
   };
     return (
-        <div className="px-24 pb-24 pt-12 bg-gray-100">
+        <div className="px-24 pb-24 pt-12 mt-12 shadow-md bg-gray-100">
             <h3 className="text-xl font-medium mb-4">Inspiration for future gateway</h3>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
