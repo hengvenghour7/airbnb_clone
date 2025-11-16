@@ -68,16 +68,10 @@ export default function Search () {
         };
         fetchData();
     }, [])
-    useEffect(() => {
-        console.log('fdsaf', allMarker);
-        
-    }, [allMarker])
     const changeMarkerHighlight = (id:number, isHover: boolean) => {
         setAllMarker(prev => prev.map(item => item.id === id ? {
             ...item, isHover
-        } : {...item, isHover: false}))
-        console.log('nnn state', allMarker);
-        
+        } : {...item, isHover: false}))        
     }
     return  <div className="mx-4 grid grid-cols-1 md:grid-cols-2">
                 <div className="mr-3 pt-4 grid grid-cols-3 gap-3 md:h-[calc(100vh-172px)] md:overflow-scroll order-2 md:order-2">

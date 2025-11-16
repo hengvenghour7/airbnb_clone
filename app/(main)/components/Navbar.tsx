@@ -14,6 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { TransitionProps } from '@mui/material/transitions';
 import SearchIcon from '@mui/icons-material/Search';
 import Filter from './FilterComponent';
+import { usePathname } from 'next/navigation';
 
 
 type navBarProps = {
@@ -41,6 +42,7 @@ const Transition = React.forwardRef(function Transition(
     });
 export default function Navbar ({className}: navBarProps) {
     // 'Home nearby', 'Any Weeks', '3 Guest'
+    const pathName = usePathname();
     const [navbarCenterOptions, setNavbarCenterOptions] = useState<navBarOptionArray>(
         [
             {
@@ -224,7 +226,9 @@ export default function Navbar ({className}: navBarProps) {
                             </IconButton >
                         </Link>
                     </div>
-                    <Filter></Filter>
+                    {
+                        pathName === '/search' && <Filter />
+                    }
                 </div>
                 <div>
                     <React.Fragment>

@@ -155,10 +155,6 @@ export default function AllFeatureCatalogue() {
           };
     fetchData();
   }, [])
-  useEffect(() => {
-    console.log('another test', catalogueFeature.all);
-    
-  }, [catalogueFeature])
   return (
     <div>
       {

@@ -167,7 +167,6 @@ export default function Create () {
             endDate: allInputField.endDate.value,
             coordinate: allInputField.coordinate.value
         }
-        console.log('createfff', createForm);
         
         const uploadImageform: uploadImageDataType = {
             username: createForm.hostname,
