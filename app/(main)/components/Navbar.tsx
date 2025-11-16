@@ -13,6 +13,7 @@ import React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { TransitionProps } from '@mui/material/transitions';
 import SearchIcon from '@mui/icons-material/Search';
+import Filter from './FilterComponent';
 
 
 type navBarProps = {
@@ -155,71 +156,75 @@ export default function Navbar ({className}: navBarProps) {
                 <Link href={'/'} className='text-2xl font-bold text-red-600'>
                     clonebnb
                 </Link>
-                <div className={clsx('hidden md:flex justify-between border-1 rounded-full bg-white shadow-md', Styles.centerButtonContainer)}>
-                    {navbarCenterOptions.map((option, index) => (
-                        option.name.toLowerCase() === 'any weeks' ? 
-                            option.child !== undefined && option.child.map((child, childIndex) => (
-                                    <div key={`any_week_${index}_${childIndex}`}>
-                                        <button className='cursor-pointer text-sm' aria-describedby={`any_week_${index}_${childIndex}`} type="button" onClick={(e) => handleCalenderClick(e, index, childIndex)}>
-                                            { child.name }
-                                            <p className='text-gray-500'>{format(navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : '', 'MMM dd')}</p>
-                                        </button>
-                                        <Popper className={Styles.calendarPopUp} id={`any_week_${index}_${childIndex}`} open={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].isOpen : false} anchorEl={anchorEl} transition sx={{ zIndex: 40 }}>
-                                            {({ TransitionProps }) => (
-                                            <Fade {...TransitionProps} timeout={350}>
-                                                <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                        <DateCalendar value={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : new Date()} onChange={(newDateVal) => handlePickDate(newDateVal, index, childIndex)} />
-                                                    </LocalizationProvider>
-                                                </Box>
-                                            </Fade>
-                                            )}
-                                        </Popper>
-                                    </div>
-                            ))
-                        : option.name.toLowerCase() === 'add guest' ? 
-                        <div className='flex gap-3' key={`center_option_${index}`}>
-                            <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
-                                {option.name}
-                            </button>
-                            <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
-                                {({ TransitionProps }) => (
-                                <Fade {...TransitionProps} timeout={350}>
-                                    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                                    The content of the Popper.
-                                    </Box>
-                                </Fade>
-                                )}
-                            </Popper>
-                            <Link href={'/search'}>
-                                <IconButton className='!bg-red-500' >
-                                    <SearchIcon className='!fill-amber-50'/>
-                                </IconButton >
-                            </Link>
-                        </div> :
-                        <div className='flex' key={`center_option_${index}`}>
-                            <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
-                                {option.name}
-                            </button>
-                            <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
-                                {({ TransitionProps }) => (
-                                <Fade {...TransitionProps} timeout={350}>
-                                    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                                    The content of the Popper.
-                                    </Box>
-                                </Fade>
-                                )}
-                            </Popper>
-                        </div>
-                        
-                    ))}
-                </div>
-                <div className='inline-block md:hidden'>
-                    <Link href={'/search'}>
-                        <IconButton className='!bg-red-500' >
-                            <SearchIcon className='!fill-amber-50'/>
-                        </IconButton >
-                    </Link>
+                <div className='flex gap-3 items-center'>
+                    <div className={clsx('hidden md:flex justify-between border-1 rounded-full bg-white shadow-md', Styles.centerButtonContainer)}>
+                        {navbarCenterOptions.map((option, index) => (
+                            option.name.toLowerCase() === 'any weeks' ? 
+                                option.child !== undefined && option.child.map((child, childIndex) => (
+                                        <div key={`any_week_${index}_${childIndex}`}>
+                                            <button className='cursor-pointer text-sm' aria-describedby={`any_week_${index}_${childIndex}`} type="button" onClick={(e) => handleCalenderClick(e, index, childIndex)}>
+                                                { child.name }
+                                                <p className='text-gray-500'>{format(navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : '', 'MMM dd')}</p>
+                                            </button>
+                                            <Popper className={Styles.calendarPopUp} id={`any_week_${index}_${childIndex}`} open={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].isOpen : false} anchorEl={anchorEl} transition sx={{ zIndex: 40 }}>
+                                                {({ TransitionProps }) => (
+                                                <Fade {...TransitionProps} timeout={350}>
+                                                    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                            <DateCalendar value={navbarCenterOptions[index].child !== undefined ? navbarCenterOptions[index].child[childIndex].value : new Date()} onChange={(newDateVal) => handlePickDate(newDateVal, index, childIndex)} />
+                                                        </LocalizationProvider>
+                                                    </Box>
+                                                </Fade>
+                                                )}
+                                            </Popper>
+                                        </div>
+                                ))
+                            : option.name.toLowerCase() === 'add guest' ? 
+                            <div className='flex gap-3' key={`center_option_${index}`}>
+                                <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
+                                    {option.name}
+                                </button>
+                                <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
+                                    {({ TransitionProps }) => (
+                                    <Fade {...TransitionProps} timeout={350}>
+                                        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                                        The content of the Popper.
+                                        </Box>
+                                    </Fade>
+                                    )}
+                                </Popper>
+                                <Link href={'/search'}>
+                                    <IconButton className='!bg-red-500' >
+                                        <SearchIcon className='!fill-amber-50'/>
+                                    </IconButton >
+                                </Link>
+                            </div> :
+                            <div className='flex' key={`center_option_${index}`}>
+                                <button className='cursor-pointer text-sm' aria-describedby={id}  type="button">
+                                    {option.name}
+                                </button>
+                                <Popper id={id} open={option.isOpen} anchorEl={anchorEl} transition>
+                                    {({ TransitionProps }) => (
+                                    <Fade {...TransitionProps} timeout={350}>
+                                        <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                                        The content of the Popper.
+                                        </Box>
+                                    </Fade>
+                                    )}
+                                </Popper>
+                            </div>
+                            
+                        ))}
+                    </div>
+                    {/* search icon for mobile */}
+                    <div className='inline-block md:hidden'>
+                        <Link href={'/search'}>
+                            <IconButton className='!bg-red-500' >
+                                <SearchIcon className='!fill-amber-50'/>
+                            </IconButton >
+                        </Link>
+                    </div>
+                    <Filter></Filter>
                 </div>
                 <div>
                     <React.Fragment>
