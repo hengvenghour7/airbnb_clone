@@ -76,3 +76,12 @@ body {
     stroke: black;
   }
 }
+.filter-container .filter-accordian.MuiPaper-root {
+  box-shadow: none !important;
+}
+.filter-container .filter-accordian.MuiPaper-root::before {
+  height: 0px;
+}
+.filter-container .MuiDialog-paper {
+  border-radius: 28px !important;
+}

@@ -1,4 +1,5 @@
-import { Button, Dialog, Divider, IconButton, Slide, Tab, Tabs, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Dialog, Divider,
+  FormControlLabel, FormGroup, IconButton, Slide, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, ReactElement, useState } from "react";
 import { styled } from '@mui/material/styles';
@@ -8,7 +9,9 @@ import TvIcon from '@mui/icons-material/Tv';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import KitchenIcon from '@mui/icons-material/Kitchen';
 import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
-import { Dry, Iron, Pool, LocalParking, EvStation,  Add, Remove, DisplaySettings } from '@mui/icons-material';
+import { Dry, Iron, Pool, LocalParking, EvStation,  Add, Remove, DisplaySettings, House, Home, Cottage, LocationCity , Apartment  } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { features, title } from "process";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -22,7 +25,8 @@ type AmenitiesItemType = {
   display: string,
   items: {
     display:string,
-    icon?: ReactElement
+    icon?: ReactElement,
+    value?: string
   }[]
 }
 type AmenitiesType = {
@@ -35,19 +39,19 @@ type AmenitiesType = {
 const reccomendations = [
   {
     display: 'Free Parking',
-    img: '/images/navbar/free_parking.png'
+    img: '/images/navbar/free_parking_icon.png'
   },
   {
     display: 'Washing Machine',
-    img: '/images/navbar/washing_machine.png'
+    img: '/images/navbar/washing_machine_icon_2.png'
   },
   {
     display: 'Allows Pets',
-    img: '/images/navbar/allows_pets.png'
+    img: '/images/navbar/allows_pets_icon.png'
   },
   {
     display: 'Self CheckIn',
-    img: '/images/navbar/free_parking.png'
+    img: '/images/navbar/key_icon.png'
   },
   
 ];
@@ -111,27 +115,33 @@ export default function Filter () {
         items: [
           {
             display: 'Wifi',
-            icon: <WifiIcon sx={{ mr: 1 }} />
+            icon: <WifiIcon sx={{ mr: 1 }} />,
+            value: "wifi",
           },
           {
             display: 'Air Conditioning',
-            icon: <AcUnitIcon sx={{ mr: 1 }} />
+            icon: <AcUnitIcon sx={{ mr: 1 }} />,
+            value: "air_conditioning",
           },
           {
             display: 'TV',
-            icon:  <TvIcon sx={{ mr: 1 }} />
+            icon:  <TvIcon sx={{ mr: 1 }} />,
+            value: "tv"
           },
           {
             display: 'Kitchen',
-            icon: <KitchenIcon sx={{ mr: 1 }} />
+            icon: <KitchenIcon sx={{ mr: 1 }} />,
+            value: "kitchen"
           },
           {
             display: 'Hot tub',
-            icon: <KitchenIcon sx={{ mr: 1 }} />
+            icon: <KitchenIcon sx={{ mr: 1 }} />,
+            value: "hot_tub"
           },
           {
             display: 'Dryer',
-            icon: <KitchenIcon sx={{ mr: 1 }} />
+            icon: <KitchenIcon sx={{ mr: 1 }} />,
+            value: "dryer"
           },
         ],
       },
@@ -140,21 +150,26 @@ export default function Filter () {
         items: [
           {
             display: 'Washing Machine',
-            icon: <LocalLaundryServiceIcon sx={{ mr: 1 }} />
+            icon: <LocalLaundryServiceIcon sx={{ mr: 1 }} />,
+            value: "washing_machine"
           },
           {
             display: 'Heating',
+            value: "heating"
           },
           {
             display: 'Dedicated Workspace',
+            value: "dedicated workspace"
           },
           {
             display: 'Hair Dryer',
             icon: <Dry sx={{ mr: 1 }} />,
+            value: "hair dryer"
           },
           {
             display: 'Iron',
             icon: <Iron sx={{ mr: 1 }} />,
+            value: "iron"
           },
         ],
       },
@@ -164,38 +179,47 @@ export default function Filter () {
           {
             display: 'Pool',
             icon: <Pool sx={{ mr: 1 }} />,
+            value: "pool"
           },
           {
             display: 'Free Parking',
             icon: <LocalParking sx={{ mr: 1 }} />,
+            value: 'free_parking'
           },
           {
             display: 'EV charger',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'ev charger'
           },
           {
             display: 'King Bed',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'king bed'
           },
           {
             display: 'Gym',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'gym'
           },
           {
             display: 'BBQ grill',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'BBQ_grill'
           },
           {
             display: 'Breakfast',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'breakfast'
           },
           {
             display: 'Indoor fireplace',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'indoor_fireplace'
           },
           {
             display: 'Smoking allowed',
             icon: <EvStation sx={{ mr: 1 }} />,
+            value: 'smoking allowed'
           },
         ],
       },
@@ -205,10 +229,12 @@ export default function Filter () {
           {
             display: 'Beachfront',
             icon: <Pool sx={{ mr: 1 }} />,
+            value: 'beachfront'
           },
           {
             display: 'Waterfront',
             icon: <LocalParking sx={{ mr: 1 }} />,
+            value: 'waterfront'
           },
         ]
       },
@@ -218,30 +244,77 @@ export default function Filter () {
           {
             display: 'Smoke alarm',
             icon: <Pool sx={{ mr: 1 }} />,
+            value: 'smoke_alarm'
           },
           {
             display: 'Carbon monoxide alarm',
             icon: <LocalParking sx={{ mr: 1 }} />,
+            value: 'carbon_monoxide_alarm'
           },
         ]
       }
     };
+    const amenitiesFirstItem = Object.entries(amenities)[0][1];
     const bookingOptions = [
       {
         fieldname: 'Instant Book',
         icon: <LocalParking sx={{ mr: 1 }} />,
+        value: 'instant_book'
       },
       {
         fieldname: 'Self check-in',
         icon: <LocalParking sx={{ mr: 1 }} />,
+        value: 'self_check-in'
       },
       {
         fieldname: 'Allowed pets',
         icon: <LocalParking sx={{ mr: 1 }} />,
+        value: 'allowed_pets'
+      },
+    ];
+    const propertyType = [
+      {
+        displayText: 'House',
+        value: 'house',
+        icon: <Home sx={{ mr: 1 }} />
+      },
+      {
+        displayText: 'Apartment',
+        value: 'apartment',
+        icon: <Apartment sx={{ mr: 1 }} />
+      },
+      {
+        displayText: 'Guest House',
+        value: 'guest_house',
+        icon: <Cottage sx={{ mr: 1 }} />
+      },
+      {
+        displayText: 'Hotel',
+        value: 'hotel',
+        icon: <LocationCity sx={{ mr: 1 }} />
       },
     ]
+    const accessibilityFeatures = [
+      {
+        title: 'Guest entrance and parking',
+        options: ['Step-free access', 'Disabled parking spot', 'Guest entrance wider than 81cm'],
+      },
+      {
+        title: 'Bedroom',
+        options: ['Step-free bedroom access', 'Bedroom wider than 81cm', 'Toilet grab rail', 'Shower grab rail', 'Step-free shower',
+          'Shower or bath chair'
+        ],
+      },
+      {
+        title: 'Adaptive Equipment',
+        options: ['Ceiling and mobile hoist']
+      }
+    ]
+    const hostLanguages = ['Chinese(Simplified)', 'Chinese(Traditional', 'English', 'French', 'German', 'Italian', 'Japanese', 'Korean', 'Portuguese', 'Russian',
+      'Spanish', 'Arabic', 'Catalan', 'Crotian', 'Czech', 'Danish', 'Dutch', 'Finnish', 'Greek', 'Hebrew', 'Hindi'
+    ]
     const [selected, setSelected] = useState<String[]>([]);
-
+    const [isShowMore, setIsShowMore] = useState(false);
     const handleAmenitiesChange = (event: React.MouseEvent<HTMLElement>, newSelected: string[]) => {
       setSelected(newSelected);
     };
@@ -290,25 +363,33 @@ export default function Filter () {
               transition: Transition,
               }}
               onClose={() => setIsFilterOpen(false)}
+              className="filter-container"
               >
-              <div className="p-6">
+              <div>
+                  <p className="text-center font-semibold my-3">Filters</p>
+                  <Divider />
+              </div>
+              <div className="p-6 overflow-y-auto">
 
-                    Filters
-                    <Divider />
-                    <div className="flex gap-3">
+                    <div>
+                      <h3 className="font-semibold mb-3">Recommended for you</h3>
+                      <div className="flex gap-3">
                         {
                             reccomendations.map((item, index) => (
                                 <div key={index}>
-                                  <img src={item.img} alt="" />
+                                  <button className="hover:cursor-pointer border rounded-lg border-gray-300 hover:border-black">
+                                    <img src={item.img} alt="" className="grayscale brightness-50" />
+                                  </button>
                                   <p className="text-sm text-center my-3">
                                     {item.display}
                                   </p>
                                 </div>
                             ))
                         }
+                      </div>
                     </div>
                     <Divider className="!my-3" />
-                    <h3>Type of Places</h3>
+                    <h3 className="font-semibold">Type of Places</h3>
                     <Tabs value={value} onChange={(e:React.SyntheticEvent, newValue:number) => setValue(newValue)}>
                       {
                         typeTabs.map((tab, index) => (
@@ -316,6 +397,9 @@ export default function Filter () {
                         ))
                       }
                     </Tabs>
+                    <Divider className="!my-3" />
+                    <h3 className="font-semibold">Price Range</h3>
+                    <p>Trip price, includes all fees</p>
                     <Slider
                       getAriaLabel={() => 'Minimum distance shift'}
                       value={value2}
@@ -325,32 +409,30 @@ export default function Filter () {
                       disableSwap
                     />
                     <Divider className="!my-3" />
-                    <h3 className="mb-3">Rooms and Beds</h3>
+                    <h3 className="mb-3 font-semibold">Rooms and Beds</h3>
                     {
                       roomOptions.map((option, index) => (
                         <div key={index} className="flex justify-between items-center">
                           <h3 className="text-sm">{option.display}</h3>
                           <div className="flex gap-3 items-center">
+                            <IconButton disabled={option.amount <= 0} onClick={() => handleOptionChange(false, index)}>
+                                <Remove />
+                            </IconButton>
+                            <h3 className="text-sm w-6 text-center">{option.amount === 0 ? 'Any' : String(option.amount).concat('+')}</h3>
                             <IconButton onClick={() => handleOptionChange(true, index)}>
                                 <Add />
-                            </IconButton>
-                            <h3 className="text-sm">{option.amount === 0 ? 'Any' : String(option.amount).concat('+')}</h3>
-                            <IconButton onClick={() => handleOptionChange(false, index)}>
-                                <Remove />
                             </IconButton>
                           </div>
                         </div>
                       ))
                     }
                     <Divider className="!my-3" />
-                    <h3>Amenities</h3>
-                    {
-                      Object.entries(amenities).map(([key, value], index) => (
-                        <div key={`amenities_${index}`}>
-                          <h3 className="my-3">{value.display}</h3>
+                    <h3 className="font-semibold">Amenities</h3>
+                    <div>
+                          <h3 className="my-3 font-semibold">{amenitiesFirstItem.display}</h3>
                           <div className="flex gap-3 flex-wrap">
                             {
-                              value.items.map((item, index) => (
+                              amenitiesFirstItem.items.map((item, index) => (
                                 <ToggleButtonGroup
                                   key={index}
                                   value={selected}
@@ -362,7 +444,7 @@ export default function Filter () {
                                     gap: 1.5
                                   }}
                                 >
-                                  <ToggleButton value="wifi" sx={{ borderRadius: 5, paddingX: 2 }}>
+                                  <ToggleButton value={item.value !== undefined ? item.value : "wifi"} sx={{ borderRadius: 5, paddingX: 2 }}>
                                     {
                                       item.icon !== undefined ? item.icon : <WifiIcon sx={{ mr: 1 }} />
                                     }
@@ -373,10 +455,52 @@ export default function Filter () {
                             }
                           </div>
                         </div>
+                          <Accordion className="filter-accordian">
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon />}
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                              onClick={() => {setIsShowMore(!isShowMore)}}
+                            >
+                              <p className="underline">{!isShowMore ? 'Show more' : 'Show less'}</p>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                    {
+                      Object.entries(amenities).slice(1).map(([key, value], index) => (
+                        <div key={`amenities_${index}`}>
+                          <h3 className="my-3 font-semibold">{value.display}</h3>
+                              <div className="flex gap-3 flex-wrap">
+                                {
+                                  value.items.map((item, index) => (
+                                    <ToggleButtonGroup
+                                      key={index}
+                                      value={selected}
+                                      onChange={handleAmenitiesChange}
+                                      aria-label="amenities"
+                                      sx={{
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        gap: 1.5
+                                      }}
+                                    >
+                                      <ToggleButton value={item.value !== undefined ? item.value : "wifi"} sx={{ borderRadius: 5, paddingX: 2 }}>
+                                        {
+                                          item.icon !== undefined ? item.icon : <WifiIcon sx={{ mr: 1 }} />
+                                        }
+                                        <p className="text-xs">{item.display}</p>
+                                      </ToggleButton>
+                                    </ToggleButtonGroup>
+                                  ))
+                                }
+                              </div>
+                          
+                        </div>
                       ))
                     }
+                            </AccordionDetails>
+                          </Accordion>
                     <Divider className="!my-3" />
-                    <h3 className="mb-3">Booking Options</h3>
+                    <h3 className="mb-3 font-semibold">Booking Options</h3>
                     <div className="flex flex-wrap gap-3">
 
                      {
@@ -393,7 +517,7 @@ export default function Filter () {
                                 }}
                               >
                                 
-                                <ToggleButton value="wifi" sx={{ borderRadius: 5, paddingX: 2 }}>
+                                <ToggleButton value={option.value !== undefined ? option.value : "wifi"} sx={{ borderRadius: 5, paddingX: 2 }}>
                                   {
                                     option.icon !== undefined ? option.icon : <WifiIcon sx={{ mr: 1 }} />
                                   }
@@ -403,6 +527,110 @@ export default function Filter () {
                         ))
                       }
                     </div>
+                    <Divider className="!my-3" />
+                    <div>
+                      <h3 className="font-semibold my-3">Standout stays</h3>
+                      <div className="grid grid-cols-2 gap-3">
+                        <button className="border rounded-md text-center p-3 border-gray-300 hover:cursor-pointer">
+                          <p className="font-semibold">Guest Favorite</p>
+                          <p>The loved home on Airbnb</p>
+                        </button>
+                        <button className="border rounded-md text-center p-3 border-gray-300 hover:cursor-pointer">
+                          <p className="font-semibold">Luxe</p>
+                          <p>Lovely home with elevated design</p>
+                        </button>
+                      </div>
+                    </div>
+                    <Divider className="!my-3" />
+                    <Accordion className="filter-accordian">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                      >
+                        <p className="font-semibold">Property Type</p>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <div className="flex flex-wrap gap-3">
+                          {
+                            propertyType.map((item, index) => (
+                              <ToggleButtonGroup
+                                    key={index}
+                                    value={selected}
+                                    onChange={handleAmenitiesChange}
+                                    aria-label="amenities"
+                                    sx={{
+                                      display: "flex",
+                                      flexWrap: "wrap",
+                                      gap: 1.5
+                                    }}
+                                  >
+                                    <ToggleButton value={item.value !== undefined ? item.value : "wifi"} sx={{ borderRadius: 5, paddingX: 2 }}>
+                                      {
+                                        item.icon !== undefined ? item.icon : <WifiIcon sx={{ mr: 1 }} />
+                                      }
+                                      <p className="text-xs">{item.displayText}</p>
+                                    </ToggleButton>
+                                  </ToggleButtonGroup>
+                            ))
+                          }
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
+                    <Divider className="!my-3" />
+                    <Accordion className="filter-accordian">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                      >
+                        <p className="font-semibold">Accessibility Features</p>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        {
+                          accessibilityFeatures.map((res, index) => (
+                            <div key={`accessibility_${index}`}>
+                              <p className="font-semibold my-3">{res.title}</p>
+                              {
+                                res.options.map((value, index) => (
+                                    <FormGroup key={index}>
+                                      <FormControlLabel control={<Checkbox defaultChecked= {false} />} label={value} />
+                                    </FormGroup>
+                                ))
+                              }
+                            </div>
+                          ))
+                        }
+                      </AccordionDetails>
+                    </Accordion>
+                    <Divider className="!my-3" />
+                    <Accordion className="filter-accordian">
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                      >
+                        <p className="font-semibold">Host Language</p>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <div className="grid grid-cols-2">
+                          {
+                            hostLanguages.map((res, index) => (
+                                <FormGroup key={index}>
+                                  <FormControlLabel control={<Checkbox defaultChecked= {false} />} label={res} />
+                                </FormGroup>
+                            ))
+                          }
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
+              </div>
+              <div>
+                <Divider />
+                <div className="flex justify-between p-6">
+                  <Button sx={{color: "black"}}>Clear All</Button>
+                  <Button variant="contained" sx={{backgroundColor :"black", borderRadius: "16px"}}>Show 1000+ places</Button>
+                </div>
               </div>
             </Dialog>
         </div>
