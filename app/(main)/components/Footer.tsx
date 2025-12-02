@@ -1,7 +1,9 @@
 'use client'
-import { Box, Divider, Tab, Tabs } from "@mui/material";
+import { Box, Button, Divider, Tab, Tabs } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -15,47 +17,103 @@ const allTabsPanel = [
         contents: [
             {
                 title: 'London',
-                description: 'Holidays rental'
+                description: 'Serviced apartment rentals'
             },
             {
-                title: 'Canberra',
-                description: 'Holidays rental'
+                title: 'Sydney',
+                description: 'Apartment rentals'
             },
             {
-                title: 'Margarette River',
-                description: 'Pet friendly rental'
+                title: 'Fremantle',
+                description: 'Apartment rentals'
             },
             {
-                title: 'Mudgee',
-                description: 'Holiday rental'
+                title: 'North Stradbrok Island',
+                description: 'Holiday rentals'
             },
             {
-                title: 'Hervey Bay',
-                description: 'Pet-friendly rental'
+                title: 'Lakes Entrance',
+                description: 'Holiday rentals'
             },
             {
-                title: 'Albury',
-                description: 'Holiday rental'
+                title: 'Maroochydore',
+                description: 'Apartment rentals'
             },
             {
-                title: 'Chrischurch',
-                description: 'Holiday rental'
+                title: 'Bondi Beach',
+                description: 'Pet-friendly rentals'
             },
             {
-                title: 'Port Fairy',
+                title: 'Perth',
+                description: 'Pet-friendly rentals'
+            },
+            {
+                title: 'Sorrento',
                 description: 'Villa rentals'
             },
             {
-                title: 'Adelaide',
-                description: 'House rental'
+                title: 'Southbank',
+                description: 'Serviced apartment rentals'
             },
             {
-                title: 'Brisbane',
-                description: 'Cabin rental'
+                title: 'Athens',
+                description: 'Apartment rentals'
             },
             {
-                title: 'Culburra Beach',
-                description: 'Holiday rental'
+                title: 'Robe',
+                description: 'Holiday rentals'
+            },
+            {
+                title: 'Margaret River',
+                description: 'Villa rentals'
+            },
+            {
+                title: 'Broadbeach',
+                description: 'Pet-friendly rentals'
+            },
+            {
+                title: 'Vincentia',
+                description: 'House rentals'
+            },
+            {
+                title: 'Port Fairy',
+                description: 'Apartment rentals'
+            },
+            {
+                title: 'Phillip Island',
+                description: 'Apartment rentals'
+            },
+            {
+                title: 'Wollongong City Council',
+                description: 'Pet-friendly rentals'
+            },
+            {
+                title: 'Christchurch',
+                description: 'House rentals'
+            },
+            {
+                title: 'Kuta',
+                description: 'Apartment rentals'
+            },
+            {
+                title: 'Bowral',
+                description: 'Cabin rentals'
+            },
+            {
+                title: 'Dunsborough',
+                description: 'Holiday rentals'
+            },
+            {
+                title: 'Blue Mountains',
+                description: 'Serviced apartment rentals'
+            },
+            {
+                title: 'Coffs Harbour',
+                description: 'Pet-friendly rentals'
+            },
+            {
+                title: 'Bangkok',
+                description: 'Apartment rentals'
             },
         ]
     },
@@ -175,12 +233,112 @@ const allTabsPanel = [
                 description: 'Things to do'
             },
             {
-                title: 'Apennine Mountains',
-                description: 'Sport Activities'
+                title: 'Appennine Mountains',
+                description: 'Tours'
             },
             {
-                title: 'Margarette River',
-                description: 'Pet friendly rental'
+                title: 'Tokyo',
+                description: 'Nature and outdoors'
+            },
+            {
+                title: 'Tama River',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Seoul',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Tokyo Bay',
+                description: 'Entertainment'
+            },
+            {
+                title: 'Seine',
+                description: 'Tours'
+            },
+            {
+                title: 'Paris',
+                description: 'Things to do'
+            },
+            {
+                title: 'Rome',
+                description: 'Sports activites'
+            },
+            {
+                title: 'Puebla',
+                description: 'Tours'
+            },
+            {
+                title: 'Ho Chi Minh City',
+                description: 'Sightseeing'
+            },
+            {
+                title: 'Hanoi',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Mexico City',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Ubud',
+                description: 'Nature and outdoors'
+            },
+            {
+                title: 'Shibuya',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Kyoto',
+                description: 'Nature and outdoors'
+            },
+            {
+                title: 'Bangkok',
+                description: 'Entertainment'
+            },
+            {
+                title: 'Chao Phraya River',
+                description: 'Nature and outdoors'
+            },
+            {
+                title: 'Florence',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Sydney',
+                description: 'Art and culture'
+            },
+            {
+                title: 'Osaka',
+                description: 'Things to do'
+            },
+            {
+                title: 'Hoi An',
+                description: 'Tours'
+            },
+            {
+                title: 'Jong-gu',
+                description: 'Things to do'
+            },
+            {
+                title: 'Sydney Harbour',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Kuta',
+                description: 'Food and drink'
+            },
+            {
+                title: 'Kamo River',
+                description: 'Things to do'
+            },
+            {
+                title: 'Great Britain',
+                description: 'Art and culture'
+            },
+            {
+                title: 'Tegallalang',
+                description: 'Nature and outdoors'
             },
         ]
     },
@@ -275,12 +433,13 @@ function a11yProps(index: number) {
 export default function Footer () {
 
      const [value, setValue] = useState(0);
+     const [isExpand, setIsExpand] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
     return (
-        <div className="px-24 pb-24 pt-12 mt-12 shadow-md bg-gray-100">
+        <div className="px-3 md:px-24 pb-24 pt-12 mt-12 shadow-md bg-gray-100">
             <h3 className="text-xl font-medium mb-4">Inspiration for future gateway</h3>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -294,15 +453,21 @@ export default function Footer () {
             {
                 allTabsPanel.map((panel, index) => (
                     <CustomTabPanel key={`tab_panel_${index}`} value={value} index={index}>
-                        <div className="grid grid-cols-6 gap-3">
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
 
                             {
-                                panel.contents.map((content, index) => (            
-                                    <div key={`content_${index}`}>
+                                (isExpand ? panel.contents : panel.contents.slice(0,17)).map((content, index) => (            
+                                    <button className="hover:cursor-pointer text-left" key={`content_${index}`}>
                                         <h3 className="text-sm">{content.title}</h3>
-                                        <p className="text-sm text-gray-400">{content.description}</p>
-                                    </div>
+                                        <p className="text-sm text-gray-500 hover:text-black">{content.description}</p>
+                                    </button>
                                 ))
+                            }
+                            {
+                                panel.contents.length > 17 && 
+                                <button className="hover:cursor-pointer hover:underline text-left text-sm mb-auto" onClick={() => {
+                                    setIsExpand(!isExpand);
+                                }}> {!isExpand ? <div>Show more <ArrowDropDownIcon/></div> : <div>Show less <ArrowDropUpIcon/></div> }</button>
                             }
                         </div>
                     </CustomTabPanel>

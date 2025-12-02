@@ -32,8 +32,8 @@ export default function Feature ({catalogue, allFeatures, isLoading}: {catalogue
     const [swiper, setSwiper] = useState<any>(null);
     return (
         <div className="my-6 mx-3 md:mx-24">
-            <div className="flex justify-between mb-4">
-                <h3 className="px-3 font-bold text-2xl pb-6">{catalogue}</h3>
+            <div className="flex justify-between mb-4 items-center">
+                <h3 className="px-3 font-bold text-xl pb-6">{catalogue}</h3>
                 <div className="flex">
                     <Button color="info" onClick={() => swiper.slidePrev()}>slide Prev</Button>
                     <Button color="info" onClick={() => swiper.slideNext()}>slide next</Button>
