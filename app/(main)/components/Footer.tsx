@@ -1,7 +1,7 @@
 'use client'
 import { Box, Button, Divider, Tab, Tabs } from "@mui/material";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
@@ -408,7 +408,7 @@ const footerFeatures = [
             },
         ]
     },
-]
+];
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -431,10 +431,19 @@ function a11yProps(index: number) {
   };
 }
 export default function Footer () {
-
-     const [value, setValue] = useState(0);
-     const [isExpand, setIsExpand] = useState(false);
-
+    const [value, setValue] = useState(0);
+    const [isExpand, setIsExpand] = useState(false);
+    const [sliceAmount, setSliceAmount] = useState(7);
+    useEffect(() => {
+        const handleSize = () => {
+                const innerWidth = window.innerWidth;
+                if (window.innerWidth > 1280) setSliceAmount(17)
+                else if (window.innerWidth > 768) setSliceAmount(11)
+                else setSliceAmount(7)
+            }
+            window.addEventListener('resize', handleSize);
+            handleSize();
+    },[]);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -453,10 +462,10 @@ export default function Footer () {
             {
                 allTabsPanel.map((panel, index) => (
                     <CustomTabPanel key={`tab_panel_${index}`} value={value} index={index}>
-                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
 
                             {
-                                (isExpand ? panel.contents : panel.contents.slice(0,17)).map((content, index) => (            
+                                (isExpand ? panel.contents : panel.contents.slice(0,sliceAmount)).map((content, index) => (            
                                     <button className="hover:cursor-pointer text-left" key={`content_${index}`}>
                                         <h3 className="text-sm">{content.title}</h3>
                                         <p className="text-sm text-gray-500 hover:text-black">{content.description}</p>
@@ -473,10 +482,10 @@ export default function Footer () {
                     </CustomTabPanel>
                 ))
             }
-            <div className="flex justify-between my-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 my-0 md:my-12">
                 {
                     footerFeatures.map((feature, index) => (
-                        <div key={`feature_${index}`} className="flex flex-col gap-3">
+                        <div key={`feature_${index}`} className="flex flex-col gap-3 w-full mb-6 pb-6 border-b md:pb-0 md:mb-0 md:border-0 border-gray-300">
                             <h3 className="font-semibold">{feature.title}</h3>
                             {
                                 feature.elements.map((ele, index) => (
@@ -489,7 +498,7 @@ export default function Footer () {
                     ))
                 }
             </div>
-            <Divider />
+            <Divider className="hidden md:block" />
             <div className="mt-3"> 
                 <p>© 2025 Clonebnb, Inc.·PrivacyTerms</p>
             </div>
