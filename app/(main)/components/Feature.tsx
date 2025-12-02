@@ -3,8 +3,10 @@ import LocationCard from "./LocationCard"
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
 import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import LoadingCard from "./LoadingCard";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 type FeatureType = {
     name: string,
@@ -35,8 +37,16 @@ export default function Feature ({catalogue, allFeatures, isLoading}: {catalogue
             <div className="flex justify-between mb-4 items-center">
                 <h3 className="px-3 font-bold text-xl pb-6">{catalogue}</h3>
                 <div className="flex">
-                    <Button color="info" onClick={() => swiper.slidePrev()}>slide Prev</Button>
-                    <Button color="info" onClick={() => swiper.slideNext()}>slide next</Button>
+                    <IconButton color="info" size="small" 
+                    sx={{border: "solid 1px black", marginRight: "8px"}} 
+                    onClick={() => swiper.slidePrev()}>
+                        <KeyboardArrowLeftIcon sx={{fill: "black"}}/>
+                    </IconButton>
+                    <IconButton color="info" size="small"
+                    sx={{border: "solid 1px black"}}
+                    className="border!" onClick={() => swiper.slideNext()}>
+                        <KeyboardArrowRightIcon sx={{fill: "black"}}/>
+                    </IconButton>
                 </div>
             </div>
             <Swiper
