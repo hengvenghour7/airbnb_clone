@@ -465,11 +465,13 @@ export default function Footer () {
                         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
 
                             {
-                                (isExpand ? panel.contents : panel.contents.slice(0,sliceAmount)).map((content, index) => (            
-                                    <button className="hover:cursor-pointer text-left" key={`content_${index}`}>
-                                        <h3 className="text-sm">{content.title}</h3>
-                                        <p className="text-sm text-gray-500 hover:text-black">{content.description}</p>
-                                    </button>
+                                (isExpand ? panel.contents : panel.contents.slice(0,sliceAmount)).map((content, index) => (       
+                                    <Link key={`content_${index}`} href={`/${content.title.replaceAll(' ', '-')}/stay/${content.description.replaceAll(' ','-')}`}>
+                                        <div className="hover:cursor-pointer text-left">
+                                            <h3 className="text-sm">{content.title}</h3>
+                                            <p className="text-sm text-gray-500 hover:text-black">{content.description}</p>
+                                        </div>
+                                    </Link>     
                                 ))
                             }
                             {

@@ -18,7 +18,7 @@ export default function ImageWithFallback({
   const [imgSrc, setImgSrc] = useState(src);
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className !== undefined ? className : ''}`}>
       <Image
         src={imgSrc}
         alt={alt}
